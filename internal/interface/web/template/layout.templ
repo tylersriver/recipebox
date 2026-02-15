@@ -19,6 +19,11 @@ templ Navbar() {
 					<a class="navbar-item" href="/recipes">Browse</a>
 					<a class="navbar-item" href="/import">Import</a>
 				</div>
+				<div class="navbar-end">
+					<a class="navbar-item" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">
+						<span id="theme-icon"></span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</nav>
@@ -48,6 +53,25 @@ templ Layout(title string) {
 					{ children... }
 				</div>
 			</section>
+		<script>
+			function getPreferredTheme() {
+				const stored = localStorage.getItem('theme');
+				if (stored) return stored;
+				return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+			function applyTheme(theme) {
+				document.documentElement.setAttribute('data-theme', theme);
+				const icon = document.getElementById('theme-icon');
+				if (icon) icon.textContent = theme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+			}
+			function toggleTheme() {
+				const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
+				const next = current === 'dark' ? 'light' : 'dark';
+				localStorage.setItem('theme', next);
+				applyTheme(next);
+			}
+			applyTheme(getPreferredTheme());
+		</script>
 		</body>
 	</html>
 }

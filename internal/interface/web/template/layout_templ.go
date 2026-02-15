@@ -29,7 +29,7 @@ func Navbar() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"navbar is-primary\" role=\"navigation\" aria-label=\"main navigation\"><div class=\"container\"><div class=\"navbar-brand\"><a class=\"navbar-item has-text-weight-bold\" href=\"/\">RecipeBox</a> <a role=\"button\" class=\"navbar-burger\" aria-label=\"menu\" aria-expanded=\"false\" data-target=\"navbarMenu\" onclick=\"this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');\"><span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span></a></div><div id=\"navbarMenu\" class=\"navbar-menu\"><div class=\"navbar-start\"><a class=\"navbar-item\" href=\"/\">Home</a> <a class=\"navbar-item\" href=\"/recipes\">Browse</a> <a class=\"navbar-item\" href=\"/import\">Import</a></div></div></div></nav>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"navbar is-primary\" role=\"navigation\" aria-label=\"main navigation\"><div class=\"container\"><div class=\"navbar-brand\"><a class=\"navbar-item has-text-weight-bold\" href=\"/\">RecipeBox</a> <a role=\"button\" class=\"navbar-burger\" aria-label=\"menu\" aria-expanded=\"false\" data-target=\"navbarMenu\" onclick=\"this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');\"><span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span></a></div><div id=\"navbarMenu\" class=\"navbar-menu\"><div class=\"navbar-start\"><a class=\"navbar-item\" href=\"/\">Home</a> <a class=\"navbar-item\" href=\"/recipes\">Browse</a> <a class=\"navbar-item\" href=\"/import\">Import</a></div><div class=\"navbar-end\"><a class=\"navbar-item\" id=\"theme-toggle\" onclick=\"toggleTheme()\" title=\"Toggle dark mode\"><span id=\"theme-icon\"></span></a></div></div></div></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -65,7 +65,7 @@ func Layout(title string) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/layout.templ`, Line: 33, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/layout.templ`, Line: 38, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -87,7 +87,7 @@ func Layout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></section></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></section><script>\n\t\t\tfunction getPreferredTheme() {\n\t\t\t\tconst stored = localStorage.getItem('theme');\n\t\t\t\tif (stored) return stored;\n\t\t\t\treturn window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';\n\t\t\t}\n\t\t\tfunction applyTheme(theme) {\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', theme);\n\t\t\t\tconst icon = document.getElementById('theme-icon');\n\t\t\t\tif (icon) icon.textContent = theme === 'dark' ? '\\u2600\\uFE0F' : '\\uD83C\\uDF19';\n\t\t\t}\n\t\t\tfunction toggleTheme() {\n\t\t\t\tconst current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();\n\t\t\t\tconst next = current === 'dark' ? 'light' : 'dark';\n\t\t\t\tlocalStorage.setItem('theme', next);\n\t\t\t\tapplyTheme(next);\n\t\t\t}\n\t\t\tapplyTheme(getPreferredTheme());\n\t\t</script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
