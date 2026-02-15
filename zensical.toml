@@ -1,0 +1,36 @@
+[project]
+site_name = "RecipeBox"
+site_description = "A self-hosted web application to import, store, and browse recipes."
+site_author = "Tyler Sriver"
+copyright = "Copyright &copy; 2026 Tyler Sriver"
+
+nav = [
+  { "Home" = "index.md" },
+  { "Getting Started" = "getting-started.md" },
+  { "Architecture" = "architecture.md" },
+  { "CLI Reference" = "cli.md" },
+  { "Web UI" = "web-ui.md" },
+  { "Configuration" = "configuration.md" },
+]
+
+[project.theme]
+language = "en"
+features = [
+    "content.code.copy",
+    "navigation.footer",
+    "navigation.instant",
+    "navigation.instant.prefetch",
+    "navigation.top",
+    "navigation.tracking",
+    "search.highlight",
+]
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
