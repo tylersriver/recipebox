@@ -1,0 +1,12 @@
+services:
+  recipebox:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - recipebox-data:/data
+    environment:
+      - RECIPEBOX_DATABASE_PATH=/data/recipebox.db
+
+volumes:
+  recipebox-data:

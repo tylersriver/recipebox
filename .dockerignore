@@ -1,0 +1,9 @@
+bin/
+site/
+docs/
+.venv/
+.claude/
+.git/
+*.db
+*.db-shm
+*.db-wal
