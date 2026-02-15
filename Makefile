@@ -10,7 +10,7 @@ run: build
 	./bin/recipebox serve
 
 dev:
-	air
+	$(shell go env GOPATH)/bin/air
 
 test:
 	go test ./...
