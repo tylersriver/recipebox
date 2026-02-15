@@ -10,13 +10,18 @@ services:
 
   docs:
     image: python:3.12-alpine
-    working_dir: /docs
     volumes:
-      - .:/docs:ro
+      - ./docs:/src/docs:ro
+      - ./zensical.toml:/src/zensical.toml:ro
     ports:
       - "8000:8000"
     command: >
-      sh -c "pip install --quiet zensical && zensical serve --dev-addr 0.0.0.0:8000"
+      sh -c "pip install --quiet zensical &&
+             mkdir -p /work/docs &&
+             cp /src/zensical.toml /work/ &&
+             cp /src/docs/*.md /work/docs/ &&
+             cd /work &&
+             zensical serve --dev-addr 0.0.0.0:8000"
 
 volumes:
   recipebox-data:
