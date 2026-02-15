@@ -1,0 +1,13 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "$HOME/go/bin/templ generate && go build -o ./tmp/recipebox ."
+  bin = "./tmp/recipebox"
+  args_bin = ["serve"]
+  include_ext = ["go", "templ", "sql", "yaml"]
+  exclude_dir = ["tmp", "bin", "docs", "site", ".venv", ".git"]
+  delay = 500
+
+[log]
+  main_only = true

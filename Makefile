@@ -1,4 +1,4 @@
-.PHONY: generate build run test clean
+.PHONY: generate build run dev test clean
 
 generate:
 	go generate ./...
@@ -8,6 +8,9 @@ build: generate
 
 run: build
 	./bin/recipebox serve
+
+dev:
+	air
 
 test:
 	go test ./...
