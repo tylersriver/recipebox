@@ -8,5 +8,15 @@ services:
     environment:
       - RECIPEBOX_DATABASE_PATH=/data/recipebox.db
 
+  docs:
+    image: python:3.12-alpine
+    working_dir: /docs
+    volumes:
+      - .:/docs:ro
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "pip install --quiet zensical && zensical serve --dev-addr 0.0.0.0:8000"
+
 volumes:
   recipebox-data:
