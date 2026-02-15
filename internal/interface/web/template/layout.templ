@@ -21,7 +21,7 @@ templ Navbar() {
 				</div>
 				<div class="navbar-end">
 					<a class="navbar-item" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">
-						<span id="theme-icon"></span>
+						<span class="icon"><i id="theme-icon" class="fa-solid fa-moon"></i></span>
 					</a>
 				</div>
 			</div>
@@ -38,6 +38,7 @@ templ Layout(title string) {
 			<title>{ title } - RecipeBox</title>
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"/>
 			<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
+			<script src="https://kit.fontawesome.com/ba546e039f.js" crossorigin="anonymous"></script>
 			<style>
 				.recipe-card .card-image img {
 					object-fit: cover;
@@ -62,7 +63,9 @@ templ Layout(title string) {
 			function applyTheme(theme) {
 				document.documentElement.setAttribute('data-theme', theme);
 				const icon = document.getElementById('theme-icon');
-				if (icon) icon.textContent = theme === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+				if (icon) {
+					icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+				}
 			}
 			function toggleTheme() {
 				const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
