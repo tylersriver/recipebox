@@ -1,0 +1,90 @@
+package template
+
+import (
+	"fmt"
+	"github.com/tyler/recipebox/internal/application/dto"
+)
+
+func ingredientDisplay(ing dto.IngredientResult) string {
+	if ing.Raw != "" {
+		return ing.Raw
+	}
+	s := ""
+	if ing.Amount != "" {
+		s += ing.Amount + " "
+	}
+	if ing.Unit != "" {
+		s += ing.Unit + " "
+	}
+	s += ing.Name
+	if ing.Notes != "" {
+		s += ", " + ing.Notes
+	}
+	return s
+}
+
+templ RecipeDetail(r dto.RecipeResult) {
+	@Layout(r.Title) {
+		<div class="columns">
+			<div class="column is-8">
+				<h1 class="title">{ r.Title }</h1>
+				if r.Author != "" {
+					<p class="subtitle is-6 has-text-grey">by { r.Author }</p>
+				}
+				if r.Description != "" {
+					<div class="content">
+						<p>{ r.Description }</p>
+					</div>
+				}
+				<div class="tags are-medium mb-4">
+					if r.PrepTime != "" {
+						<span class="tag is-info is-light">{ fmt.Sprintf("Prep: %s", r.PrepTime) }</span>
+					}
+					if r.CookTime != "" {
+						<span class="tag is-info is-light">{ fmt.Sprintf("Cook: %s", r.CookTime) }</span>
+					}
+					if r.TotalTime != "" {
+						<span class="tag is-info">{ fmt.Sprintf("Total: %s", r.TotalTime) }</span>
+					}
+					if r.Servings != "" {
+						<span class="tag is-primary is-light">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
+					}
+					if r.Cuisine != "" {
+						<span class="tag is-success is-light">{ r.Cuisine }</span>
+					}
+					if r.Course != "" {
+						<span class="tag is-warning is-light">{ r.Course }</span>
+					}
+				</div>
+				<div class="box">
+					<h2 class="title is-4">Ingredients</h2>
+					<ul>
+						for _, ing := range r.Ingredients {
+							<li>{ ingredientDisplay(ing) }</li>
+						}
+					</ul>
+				</div>
+				<div class="box">
+					<h2 class="title is-4">Instructions</h2>
+					<ol>
+						for _, inst := range r.Instructions {
+							<li class="mb-3">{ inst.Text }</li>
+						}
+					</ol>
+				</div>
+				if r.SourceURL != "" {
+					<p class="has-text-grey">
+						<a href={ templ.SafeURL(r.SourceURL) } target="_blank" rel="noopener">View original recipe</a>
+					</p>
+				}
+			</div>
+			<div class="column is-4">
+				if r.ImageURL != "" {
+					<figure class="image">
+						<img src={ r.ImageURL } alt={ r.Title }/>
+					</figure>
+				}
+			</div>
+		</div>
+	}
+}

@@ -1,0 +1,53 @@
+package template
+
+templ Navbar() {
+	<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+		<div class="container">
+			<div class="navbar-brand">
+				<a class="navbar-item has-text-weight-bold" href="/">RecipeBox</a>
+				<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"
+					onclick="this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');">
+					<span aria-hidden="true"></span>
+					<span aria-hidden="true"></span>
+					<span aria-hidden="true"></span>
+					<span aria-hidden="true"></span>
+				</a>
+			</div>
+			<div id="navbarMenu" class="navbar-menu">
+				<div class="navbar-start">
+					<a class="navbar-item" href="/">Home</a>
+					<a class="navbar-item" href="/recipes">Browse</a>
+					<a class="navbar-item" href="/import">Import</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Layout(title string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>{ title } - RecipeBox</title>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"/>
+			<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
+			<style>
+				.recipe-card .card-image img {
+					object-fit: cover;
+					height: 200px;
+					width: 100%;
+				}
+			</style>
+		</head>
+		<body>
+			@Navbar()
+			<section class="section">
+				<div class="container">
+					{ children... }
+				</div>
+			</section>
+		</body>
+	</html>
+}

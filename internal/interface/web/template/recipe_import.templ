@@ -1,0 +1,53 @@
+package template
+
+templ RecipeImport() {
+	@Layout("Import Recipe") {
+		<div class="columns">
+			<div class="column is-6 is-offset-3">
+				<h1 class="title">Import Recipe</h1>
+				<p class="subtitle">Paste a recipe URL to import it into your collection.</p>
+				<div class="box" data-signals:url="" data-signals:importing="false">
+					<div class="field">
+						<label class="label">Recipe URL</label>
+						<div class="control">
+							<input
+								class="input"
+								type="url"
+								placeholder="https://example.com/recipe"
+								data-bind:url
+							/>
+						</div>
+					</div>
+					<div class="field">
+						<div class="control">
+							<button
+								class="button is-primary"
+								data-on:click="@post('/import/submit')"
+								data-attr:disabled="$importing"
+								data-class:is-loading="$importing"
+							>
+								Import Recipe
+							</button>
+						</div>
+					</div>
+					<div id="import-result"></div>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ ImportSuccess(title string, id string) {
+	<div id="import-result" class="notification is-success mt-4">
+		<p>
+			Successfully imported <strong>{ title }</strong>!
+		</p>
+		<a href={ templ.SafeURL("/recipes/" + id) } class="button is-small is-white mt-2">View Recipe</a>
+	</div>
+}
+
+templ ImportError(msg string) {
+	<div id="import-result" class="notification is-danger mt-4">
+		<p>{ msg }</p>
+	</div>
+}

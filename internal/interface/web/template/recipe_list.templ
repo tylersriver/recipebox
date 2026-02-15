@@ -1,0 +1,25 @@
+package template
+
+import (
+	"github.com/tyler/recipebox/internal/application/dto"
+)
+
+templ RecipeList(result dto.RecipeListResult) {
+	@Layout("Browse Recipes") {
+		<h1 class="title">Browse Recipes</h1>
+		if len(result.Recipes) == 0 {
+			<div class="notification is-info is-light">
+				No recipes found. <a href="/import">Import one</a> to get started!
+			</div>
+		} else {
+			<div class="columns is-multiline">
+				for _, r := range result.Recipes {
+					<div class="column is-4">
+						@RecipeCard(r)
+					</div>
+				}
+			</div>
+			@Pagination(result.Total, result.Offset, result.Limit)
+		}
+	}
+}

@@ -1,0 +1,40 @@
+package template
+
+import (
+	"fmt"
+	"github.com/tyler/recipebox/internal/application/dto"
+)
+
+templ RecipeCard(r dto.RecipeResult) {
+	<div class="card recipe-card">
+		if r.ImageURL != "" {
+			<div class="card-image">
+				<figure class="image">
+					<img src={ r.ImageURL } alt={ r.Title }/>
+				</figure>
+			</div>
+		}
+		<div class="card-content">
+			<p class="title is-5">
+				<a href={ templ.SafeURL(fmt.Sprintf("/recipes/%s", r.ID)) }>{ r.Title }</a>
+			</p>
+			if r.Author != "" {
+				<p class="subtitle is-6 has-text-grey">by { r.Author }</p>
+			}
+			<div class="tags">
+				if r.TotalTime != "" {
+					<span class="tag is-info is-light">{ r.TotalTime }</span>
+				}
+				if r.Cuisine != "" {
+					<span class="tag is-success is-light">{ r.Cuisine }</span>
+				}
+				if r.Course != "" {
+					<span class="tag is-warning is-light">{ r.Course }</span>
+				}
+				if r.Servings != "" {
+					<span class="tag is-primary is-light">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
+				}
+			</div>
+		</div>
+	</div>
+}

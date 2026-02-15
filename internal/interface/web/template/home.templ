@@ -1,0 +1,45 @@
+package template
+
+import (
+	"github.com/tyler/recipebox/internal/application/dto"
+)
+
+templ Home(recipes []dto.RecipeResult) {
+	@Layout("Home") {
+		<div class="columns">
+			<div class="column is-8 is-offset-2">
+				<div class="box" data-signals:search="">
+					<h2 class="title is-4">Search Recipes</h2>
+					<div class="field">
+						<div class="control">
+							<input
+								class="input is-medium"
+								type="text"
+								placeholder="Search by name, ingredient, cuisine..."
+								data-bind:search
+								data-on:keyup__debounce.300ms="@get('/search/results')"
+							/>
+						</div>
+					</div>
+					<div id="search-results"></div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-5">
+			<h2 class="title is-4">Recent Recipes</h2>
+			if len(recipes) == 0 {
+				<div class="notification is-info is-light">
+					No recipes yet. <a href="/import">Import one</a> to get started!
+				</div>
+			} else {
+				<div class="columns is-multiline">
+					for _, r := range recipes {
+						<div class="column is-4">
+							@RecipeCard(r)
+						</div>
+					}
+				</div>
+			}
+		</div>
+	}
+}
