@@ -90,3 +90,64 @@ Handles HTTP concerns:
 ## Database
 
 SQLite with three tables (`recipes`, `ingredients`, `instructions`) and two FTS5 virtual tables (`recipes_fts`, `ingredients_fts`) kept in sync via triggers. Ingredients and instructions are stored as separate rows rather than JSON to enable full-text search on individual fields.
+
+### ER Diagram
+
+```mermaid
+erDiagram
+    recipes {
+        TEXT id PK "UUID v7"
+        TEXT title "NOT NULL"
+        TEXT description
+        TEXT prep_time
+        TEXT cook_time
+        TEXT total_time
+        TEXT servings
+        TEXT cuisine
+        TEXT course
+        TEXT image_url
+        TEXT source_url UK "UNIQUE"
+        TEXT author
+        TEXT nutrition
+        DATETIME created_at "NOT NULL"
+        DATETIME updated_at "NOT NULL"
+    }
+
+    ingredients {
+        INTEGER id PK "AUTOINCREMENT"
+        TEXT recipe_id FK "NOT NULL"
+        TEXT amount
+        TEXT unit
+        TEXT name
+        TEXT notes
+        TEXT raw "Original text"
+        INTEGER sort_order
+    }
+
+    instructions {
+        INTEGER id PK "AUTOINCREMENT"
+        TEXT recipe_id FK "NOT NULL"
+        INTEGER step_number "NOT NULL"
+        TEXT text
+    }
+
+    recipes_fts {
+        TEXT title
+        TEXT description
+        TEXT cuisine
+        TEXT course
+        TEXT author
+    }
+
+    ingredients_fts {
+        TEXT name
+        TEXT raw
+    }
+
+    recipes ||--o{ ingredients : "has"
+    recipes ||--o{ instructions : "has"
+    recipes ||..|| recipes_fts : "synced via triggers"
+    ingredients ||..|| ingredients_fts : "synced via triggers"
+```
+
+All foreign keys use `ON DELETE CASCADE` so deleting a recipe removes its ingredients and instructions automatically. The FTS5 virtual tables are kept in sync via `AFTER INSERT`, `AFTER UPDATE`, and `AFTER DELETE` triggers.
