@@ -72,6 +72,53 @@ templ RecipeDetail(r dto.RecipeResult) {
 						}
 					</ol>
 				</div>
+				<div class="box">
+					<h2 class="title is-4">My Notes</h2>
+					<form id="notes-form" onsubmit="saveNotes(event)">
+						<div class="field">
+							<div class="control">
+								<textarea class="textarea" id="notes-input" name="notes" placeholder="Add your personal notes, tweaks, or modifications...">{ r.Notes }</textarea>
+							</div>
+						</div>
+						<div class="field">
+							<div class="control">
+								<button class="button is-primary" type="submit" id="notes-save-btn">Save Notes</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div id="notes-toast" class="notification is-hidden" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; min-width: 250px;">
+					<button class="delete" onclick="this.parentElement.classList.add('is-hidden')"></button>
+					<span id="notes-toast-msg"></span>
+				</div>
+				<script>
+					function saveNotes(e) {
+						e.preventDefault();
+						var btn = document.getElementById('notes-save-btn');
+						btn.classList.add('is-loading');
+						var formData = new FormData(document.getElementById('notes-form'));
+						fetch(window.location.pathname + '/notes', {
+							method: 'POST',
+							body: formData
+						}).then(function(resp) {
+							return resp.json().then(function(data) {
+								return { ok: resp.ok, data: data };
+							});
+						}).then(function(result) {
+							showNotesToast(result.ok ? result.data.message : result.data.error, result.ok);
+						}).catch(function() {
+							showNotesToast('Failed to save notes', false);
+						}).finally(function() {
+							btn.classList.remove('is-loading');
+						});
+					}
+					function showNotesToast(msg, success) {
+						var toast = document.getElementById('notes-toast');
+						toast.className = 'notification ' + (success ? 'is-success' : 'is-danger');
+						document.getElementById('notes-toast-msg').textContent = msg;
+						setTimeout(function() { toast.classList.add('is-hidden'); }, 3000);
+					}
+				</script>
 				if r.SourceURL != "" {
 					<p class="has-text-grey">
 						<a href={ templ.SafeURL(r.SourceURL) } target="_blank" rel="noopener">View original recipe</a>

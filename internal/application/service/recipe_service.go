@@ -76,6 +76,11 @@ func (s *RecipeService) ListRecipes(ctx context.Context, q query.ListRecipesQuer
 	return &result, nil
 }
 
+// UpdateNotes updates the personal notes for a recipe.
+func (s *RecipeService) UpdateNotes(ctx context.Context, cmd command.UpdateNotesCommand) error {
+	return s.repo.UpdateNotes(ctx, cmd.ID, cmd.Notes)
+}
+
 // SearchRecipes searches for recipes matching a query string.
 func (s *RecipeService) SearchRecipes(ctx context.Context, q query.SearchRecipesQuery) (*dto.RecipeListResult, error) {
 	limit := q.Limit

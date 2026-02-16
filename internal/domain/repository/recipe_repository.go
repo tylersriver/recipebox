@@ -14,4 +14,5 @@ type RecipeRepository interface {
 	FindAll(ctx context.Context, offset, limit int) ([]*entity.Recipe, int, error)
 	Search(ctx context.Context, query string, offset, limit int) ([]*entity.Recipe, int, error)
 	Delete(ctx context.Context, id string) error
+	UpdateNotes(ctx context.Context, id string, notes string) error
 }

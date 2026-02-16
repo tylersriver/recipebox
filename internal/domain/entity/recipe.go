@@ -24,6 +24,7 @@ type Recipe struct {
 	SourceURL    string
 	Author       string
 	Nutrition    string
+	Notes        string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

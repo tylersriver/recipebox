@@ -95,6 +95,15 @@ func (h *RecipeHandler) Delete(c echo.Context) error {
 	return c.Redirect(http.StatusSeeOther, "/recipes")
 }
 
+func (h *RecipeHandler) UpdateNotes(c echo.Context) error {
+	id := c.Param("id")
+	notes := c.FormValue("notes")
+	if err := h.svc.UpdateNotes(c.Request().Context(), command.UpdateNotesCommand{ID: id, Notes: notes}); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+	return c.JSON(http.StatusOK, map[string]string{"message": "Notes saved"})
+}
+
 type browseSearchSignals struct {
 	Search string `json:"search"`
 }

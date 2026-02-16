@@ -21,6 +21,7 @@ func ToDTO(r *entity.Recipe) dto.RecipeResult {
 		SourceURL:   r.SourceURL,
 		Author:      r.Author,
 		Nutrition:   r.Nutrition,
+		Notes:       r.Notes,
 		CreatedAt:   r.CreatedAt,
 		UpdatedAt:   r.UpdatedAt,
 	}

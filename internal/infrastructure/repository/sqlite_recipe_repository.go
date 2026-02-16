@@ -80,7 +80,7 @@ func (r *sqliteRecipeRepository) Save(ctx context.Context, vr *entity.ValidatedR
 }
 
 func (r *sqliteRecipeRepository) FindByID(ctx context.Context, id string) (*entity.Recipe, error) {
-	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, created_at, updated_at FROM recipes WHERE id = ?", id)
+	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, created_at, updated_at FROM recipes WHERE id = ?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (r *sqliteRecipeRepository) FindByID(ctx context.Context, id string) (*enti
 }
 
 func (r *sqliteRecipeRepository) FindBySourceURL(ctx context.Context, sourceURL string) (*entity.Recipe, error) {
-	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, created_at, updated_at FROM recipes WHERE source_url = ?", sourceURL)
+	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, created_at, updated_at FROM recipes WHERE source_url = ?", sourceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (r *sqliteRecipeRepository) FindAll(ctx context.Context, offset, limit int)
 	}
 
 	rows, err := r.db.QueryContext(ctx,
-		"SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, created_at, updated_at FROM recipes ORDER BY created_at DESC LIMIT ? OFFSET ?",
+		"SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, created_at, updated_at FROM recipes ORDER BY created_at DESC LIMIT ? OFFSET ?",
 		limit, offset,
 	)
 	if err != nil {
@@ -134,7 +134,7 @@ func (r *sqliteRecipeRepository) Search(ctx context.Context, query string, offse
 	sqlQuery := `
 		SELECT DISTINCT r.id, r.title, r.description, r.prep_time, r.cook_time, r.total_time,
 		       r.servings, r.cuisine, r.course, r.image_url, r.source_url, r.author, r.nutrition,
-		       r.created_at, r.updated_at
+		       r.notes, r.created_at, r.updated_at
 		FROM recipes r
 		LEFT JOIN ingredients i ON i.recipe_id = r.id
 		WHERE r.rowid IN (SELECT rowid FROM recipes_fts WHERE recipes_fts MATCH ?)
@@ -171,6 +171,18 @@ func (r *sqliteRecipeRepository) Search(ctx context.Context, query string, offse
 	return recipes, total, nil
 }
 
+func (r *sqliteRecipeRepository) UpdateNotes(ctx context.Context, id string, notes string) error {
+	result, err := r.db.ExecContext(ctx, "UPDATE recipes SET notes = ?, updated_at = datetime('now') WHERE id = ?", notes, id)
+	if err != nil {
+		return fmt.Errorf("updating notes: %w", err)
+	}
+	n, _ := result.RowsAffected()
+	if n == 0 {
+		return fmt.Errorf("recipe not found: %s", id)
+	}
+	return nil
+}
+
 func (r *sqliteRecipeRepository) Delete(ctx context.Context, id string) error {
 	result, err := r.db.ExecContext(ctx, "DELETE FROM recipes WHERE id = ?", id)
 	if err != nil {
@@ -191,7 +203,7 @@ func (r *sqliteRecipeRepository) scanRecipe(ctx context.Context, query string, a
 		&recipe.PrepTime, &recipe.CookTime, &recipe.TotalTime,
 		&recipe.Servings, &recipe.Cuisine, &recipe.Course,
 		&recipe.ImageURL, &recipe.SourceURL, &recipe.Author, &recipe.Nutrition,
-		&recipe.CreatedAt, &recipe.UpdatedAt,
+		&recipe.Notes, &recipe.CreatedAt, &recipe.UpdatedAt,
 	)
 	if err == sql.ErrNoRows {
 		return nil, nil
@@ -211,7 +223,7 @@ func (r *sqliteRecipeRepository) scanRecipes(ctx context.Context, rows *sql.Rows
 			&recipe.PrepTime, &recipe.CookTime, &recipe.TotalTime,
 			&recipe.Servings, &recipe.Cuisine, &recipe.Course,
 			&recipe.ImageURL, &recipe.SourceURL, &recipe.Author, &recipe.Nutrition,
-			&recipe.CreatedAt, &recipe.UpdatedAt,
+			&recipe.Notes, &recipe.CreatedAt, &recipe.UpdatedAt,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("scanning recipe row: %w", err)
