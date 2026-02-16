@@ -260,7 +260,7 @@ func RecipeDetail(r dto.RecipeResult) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</ul></div><div class=\"box\"><h2 class=\"title is-4\">Instructions</h2><ol>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</ul></div><div class=\"box\"><h2 class=\"title is-4\">Instructions</h2><ol style=\"padding-left: 1.5em;\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
