@@ -43,6 +43,10 @@ recipebox/
 │       ├── server.go                # Echo setup & routes
 │       ├── handler/                 # Request handlers
 │       └── template/                # templ templates
+├── Dockerfile                       # Multi-stage production build
+├── docker-compose.yml               # App + docs services
+├── .air.toml                        # Air hot-reload config
+├── .github/workflows/docs.yml       # GitHub Pages deployment
 ├── zensical.toml                    # Documentation config
 └── docs/                            # Documentation source
 ```

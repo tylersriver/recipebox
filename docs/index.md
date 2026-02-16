@@ -8,6 +8,7 @@ A self-hosted web application to import recipes from URLs, store them locally, a
 - **Full-Text Search** — Search across recipe titles, descriptions, ingredients, and more powered by SQLite FTS5
 - **Browse & View** — Card-based recipe browsing with detailed recipe pages
 - **Live Search** — Debounced live search via Datastar SSE
+- **Dark Mode** — Automatic system preference detection with manual toggle
 - **CLI Tools** — List, search, and view recipes from the command line
 - **Single Binary** — No external dependencies beyond the compiled binary
 

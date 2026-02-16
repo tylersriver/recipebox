@@ -2,12 +2,15 @@
 
 A self-hosted web application to import recipes from URLs, store them locally, and search/browse your collection.
 
+**[Documentation](https://tylersriver.github.io/recipebox/)**
+
 ## Features
 
 - Import recipes from any site using JSON-LD (schema.org/Recipe) or WP Recipe Maker markup
 - Full-text search across recipe titles, descriptions, ingredients, and more (SQLite FTS5)
 - Browse recipes with a card-based UI
 - Live search with debounced typing via Datastar SSE
+- Dark mode with system preference detection and manual toggle
 - CLI for importing, listing, and searching recipes
 - Single binary, no external dependencies beyond the binary itself
 
@@ -28,23 +31,30 @@ A self-hosted web application to import recipes from URLs, store them locally, a
 - Go 1.24+
 - [templ](https://templ.guide) CLI (`go install github.com/a-h/templ/cmd/templ@latest`)
 
-### Build
+### Build & Run
 
 ```bash
-make build
+make build              # generate templ + compile to bin/recipebox
+./bin/recipebox serve   # start web server at http://localhost:8080
 ```
 
-This runs `templ generate` and compiles the binary to `bin/recipebox`.
-
-### Run
-
-Start the web server:
+### Docker
 
 ```bash
-./bin/recipebox serve
+docker-compose up recipebox
 ```
 
-Then open http://localhost:8080 in your browser.
+This builds and runs the app on port 8080 with a persistent data volume.
+
+### Development
+
+For hot-reloading during development (requires [Air](https://github.com/air-verse/air)):
+
+```bash
+make dev
+```
+
+Air watches `.go`, `.templ`, `.sql`, and `.yaml` files and automatically rebuilds on changes.
 
 ### CLI Usage
 

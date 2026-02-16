@@ -23,6 +23,14 @@ Full recipe view showing:
 - Numbered instructions
 - Recipe image (if available)
 
+### Dark Mode
+
+RecipeBox supports dark mode with a toggle button in the navbar. The theme:
+
+- Detects your system preference (`prefers-color-scheme`) on first visit
+- Persists your choice to `localStorage`
+- Can be toggled manually via the sun/moon icon in the top navigation bar
+
 ### Import (`/import`)
 
 Paste a recipe URL and click **Import Recipe**. The button shows a loading spinner during import, and displays a success message with a link to the imported recipe on completion.

@@ -41,16 +41,27 @@ Navigate to [http://localhost:8080/import](http://localhost:8080/import), paste 
 !!! tip "WPRM Print URLs"
     For WP Recipe Maker sites, the print URL format (`/wprm_print/recipe-slug`) often works best for scraping.
 
-## Development
+## Docker
 
-After editing `.templ` files, regenerate and rebuild:
+You can also run RecipeBox via Docker:
 
 ```bash
-~/go/bin/templ generate
-go build -o bin/recipebox .
+docker-compose up recipebox
 ```
 
-Or simply:
+This builds and starts the app on port 8080 with a persistent volume for the database.
+
+## Development
+
+For hot-reloading during development, use [Air](https://github.com/air-verse/air):
+
+```bash
+make dev
+```
+
+Air watches `.go`, `.templ`, `.sql`, and `.yaml` files, automatically regenerates templ templates, and rebuilds on changes.
+
+You can also manually regenerate and rebuild:
 
 ```bash
 make build
