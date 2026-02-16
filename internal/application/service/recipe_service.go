@@ -25,11 +25,13 @@ func NewRecipeService(repo repository.RecipeRepository, scraper service.RecipeSc
 }
 
 // ImportRecipe scrapes a recipe from a URL and stores it.
-func (s *RecipeService) ImportRecipe(ctx context.Context, cmd command.ImportRecipeCommand) (*dto.RecipeResult, error) {
+func (s *RecipeService) ImportRecipe(ctx context.Context, userID string, cmd command.ImportRecipeCommand) (*dto.RecipeResult, error) {
 	recipe, err := s.scraper.ScrapeRecipe(ctx, cmd.URL)
 	if err != nil {
 		return nil, fmt.Errorf("scraping recipe: %w", err)
 	}
+
+	recipe.UserID = userID
 
 	validated, err := entity.Validate(recipe)
 	if err != nil {
@@ -45,13 +47,13 @@ func (s *RecipeService) ImportRecipe(ctx context.Context, cmd command.ImportReci
 }
 
 // DeleteRecipe removes a recipe by ID.
-func (s *RecipeService) DeleteRecipe(ctx context.Context, cmd command.DeleteRecipeCommand) error {
-	return s.repo.Delete(ctx, cmd.ID)
+func (s *RecipeService) DeleteRecipe(ctx context.Context, userID string, cmd command.DeleteRecipeCommand) error {
+	return s.repo.Delete(ctx, userID, cmd.ID)
 }
 
 // GetRecipe retrieves a single recipe by ID.
-func (s *RecipeService) GetRecipe(ctx context.Context, q query.GetRecipeByIDQuery) (*dto.RecipeResult, error) {
-	recipe, err := s.repo.FindByID(ctx, q.ID)
+func (s *RecipeService) GetRecipe(ctx context.Context, userID string, q query.GetRecipeByIDQuery) (*dto.RecipeResult, error) {
+	recipe, err := s.repo.FindByID(ctx, userID, q.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -63,12 +65,12 @@ func (s *RecipeService) GetRecipe(ctx context.Context, q query.GetRecipeByIDQuer
 }
 
 // ListRecipes returns a paginated list of recipes.
-func (s *RecipeService) ListRecipes(ctx context.Context, q query.ListRecipesQuery) (*dto.RecipeListResult, error) {
+func (s *RecipeService) ListRecipes(ctx context.Context, userID string, q query.ListRecipesQuery) (*dto.RecipeListResult, error) {
 	limit := q.Limit
 	if limit <= 0 {
 		limit = 20
 	}
-	recipes, total, err := s.repo.FindAll(ctx, q.Offset, limit)
+	recipes, total, err := s.repo.FindAll(ctx, userID, q.Offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77,17 +79,17 @@ func (s *RecipeService) ListRecipes(ctx context.Context, q query.ListRecipesQuer
 }
 
 // UpdateNotes updates the personal notes for a recipe.
-func (s *RecipeService) UpdateNotes(ctx context.Context, cmd command.UpdateNotesCommand) error {
-	return s.repo.UpdateNotes(ctx, cmd.ID, cmd.Notes)
+func (s *RecipeService) UpdateNotes(ctx context.Context, userID string, cmd command.UpdateNotesCommand) error {
+	return s.repo.UpdateNotes(ctx, userID, cmd.ID, cmd.Notes)
 }
 
 // SearchRecipes searches for recipes matching a query string.
-func (s *RecipeService) SearchRecipes(ctx context.Context, q query.SearchRecipesQuery) (*dto.RecipeListResult, error) {
+func (s *RecipeService) SearchRecipes(ctx context.Context, userID string, q query.SearchRecipesQuery) (*dto.RecipeListResult, error) {
 	limit := q.Limit
 	if limit <= 0 {
 		limit = 20
 	}
-	recipes, total, err := s.repo.Search(ctx, q.Query, q.Offset, limit)
+	recipes, total, err := s.repo.Search(ctx, userID, q.Query, q.Offset, limit)
 	if err != nil {
 		return nil, err
 	}

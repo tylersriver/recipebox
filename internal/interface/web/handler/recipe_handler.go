@@ -12,6 +12,7 @@ import (
 	"github.com/tyler/recipebox/internal/application/command"
 	"github.com/tyler/recipebox/internal/application/query"
 	appservice "github.com/tyler/recipebox/internal/application/service"
+	"github.com/tyler/recipebox/internal/interface/web/middleware"
 	tmpl "github.com/tyler/recipebox/internal/interface/web/template"
 )
 
@@ -24,13 +25,14 @@ func NewRecipeHandler(svc *appservice.RecipeService) *RecipeHandler {
 }
 
 func (h *RecipeHandler) List(c echo.Context) error {
+	userID := middleware.GetUserID(c)
 	offset, _ := strconv.Atoi(c.QueryParam("offset"))
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
 	if limit <= 0 {
 		limit = 12
 	}
 
-	result, err := h.svc.ListRecipes(c.Request().Context(), query.ListRecipesQuery{
+	result, err := h.svc.ListRecipes(c.Request().Context(), userID, query.ListRecipesQuery{
 		Offset: offset,
 		Limit:  limit,
 	})
@@ -38,21 +40,22 @@ func (h *RecipeHandler) List(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
-	return Render(c, http.StatusOK, tmpl.RecipeList(*result))
+	return Render(c, http.StatusOK, tmpl.RecipeList(*result, middleware.GetUserEmail(c)))
 }
 
 func (h *RecipeHandler) Detail(c echo.Context) error {
+	userID := middleware.GetUserID(c)
 	id := c.Param("id")
-	result, err := h.svc.GetRecipe(c.Request().Context(), query.GetRecipeByIDQuery{ID: id})
+	result, err := h.svc.GetRecipe(c.Request().Context(), userID, query.GetRecipeByIDQuery{ID: id})
 	if err != nil {
 		return c.String(http.StatusNotFound, "Recipe not found")
 	}
 
-	return Render(c, http.StatusOK, tmpl.RecipeDetail(*result))
+	return Render(c, http.StatusOK, tmpl.RecipeDetail(*result, middleware.GetUserEmail(c)))
 }
 
 func (h *RecipeHandler) ImportPage(c echo.Context) error {
-	return Render(c, http.StatusOK, tmpl.RecipeImport())
+	return Render(c, http.StatusOK, tmpl.RecipeImport(middleware.GetUserEmail(c)))
 }
 
 type importSignals struct {
@@ -61,6 +64,8 @@ type importSignals struct {
 }
 
 func (h *RecipeHandler) ImportSubmit(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+
 	// ReadSignals MUST be called before NewSSE (SSE consumes the body)
 	var signals importSignals
 	if err := datastar.ReadSignals(c.Request(), &signals); err != nil {
@@ -77,7 +82,7 @@ func (h *RecipeHandler) ImportSubmit(c echo.Context) error {
 	// Set importing state
 	sse.MarshalAndPatchSignals(importSignals{URL: signals.URL, Importing: true})
 
-	result, err := h.svc.ImportRecipe(c.Request().Context(), command.ImportRecipeCommand{URL: signals.URL})
+	result, err := h.svc.ImportRecipe(c.Request().Context(), userID, command.ImportRecipeCommand{URL: signals.URL})
 	if err != nil {
 		sse.MarshalAndPatchSignals(importSignals{URL: signals.URL, Importing: false})
 		return renderSSEFragment(sse, tmpl.ImportError("Failed to import: "+err.Error()))
@@ -88,17 +93,19 @@ func (h *RecipeHandler) ImportSubmit(c echo.Context) error {
 }
 
 func (h *RecipeHandler) Delete(c echo.Context) error {
+	userID := middleware.GetUserID(c)
 	id := c.Param("id")
-	if err := h.svc.DeleteRecipe(c.Request().Context(), command.DeleteRecipeCommand{ID: id}); err != nil {
+	if err := h.svc.DeleteRecipe(c.Request().Context(), userID, command.DeleteRecipeCommand{ID: id}); err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 	return c.Redirect(http.StatusSeeOther, "/recipes")
 }
 
 func (h *RecipeHandler) UpdateNotes(c echo.Context) error {
+	userID := middleware.GetUserID(c)
 	id := c.Param("id")
 	notes := c.FormValue("notes")
-	if err := h.svc.UpdateNotes(c.Request().Context(), command.UpdateNotesCommand{ID: id, Notes: notes}); err != nil {
+	if err := h.svc.UpdateNotes(c.Request().Context(), userID, command.UpdateNotesCommand{ID: id, Notes: notes}); err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
 	}
 	return c.JSON(http.StatusOK, map[string]string{"message": "Notes saved"})
@@ -109,6 +116,8 @@ type browseSearchSignals struct {
 }
 
 func (h *RecipeHandler) Search(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+
 	var signals browseSearchSignals
 	if err := datastar.ReadSignals(c.Request(), &signals); err != nil {
 		return err
@@ -117,7 +126,7 @@ func (h *RecipeHandler) Search(c echo.Context) error {
 	sse := datastar.NewSSE(c.Response().Writer, c.Request())
 
 	if signals.Search == "" {
-		result, err := h.svc.ListRecipes(c.Request().Context(), query.ListRecipesQuery{
+		result, err := h.svc.ListRecipes(c.Request().Context(), userID, query.ListRecipesQuery{
 			Offset: 0,
 			Limit:  12,
 		})
@@ -127,7 +136,7 @@ func (h *RecipeHandler) Search(c echo.Context) error {
 		return renderSSEFragment(sse, tmpl.BrowseResults(*result))
 	}
 
-	result, err := h.svc.SearchRecipes(c.Request().Context(), query.SearchRecipesQuery{
+	result, err := h.svc.SearchRecipes(c.Request().Context(), userID, query.SearchRecipesQuery{
 		Query: signals.Search,
 		Limit: 30,
 	})

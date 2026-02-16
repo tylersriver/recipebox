@@ -8,7 +8,7 @@ package template
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func Navbar() templ.Component {
+func Navbar(userEmail string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +29,30 @@ func Navbar() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"navbar is-primary\" role=\"navigation\" aria-label=\"main navigation\"><div class=\"container\"><div class=\"navbar-brand\"><a class=\"navbar-item has-text-weight-bold\" href=\"/\">RecipeBox</a> <a role=\"button\" class=\"navbar-burger\" aria-label=\"menu\" aria-expanded=\"false\" data-target=\"navbarMenu\" onclick=\"this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');\"><span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span></a></div><div id=\"navbarMenu\" class=\"navbar-menu\"><div class=\"navbar-start\"><a class=\"navbar-item\" href=\"/\">Home</a> <a class=\"navbar-item\" href=\"/recipes\">Browse</a> <a class=\"navbar-item\" href=\"/import\">Import</a></div><div class=\"navbar-end\"><a class=\"navbar-item\" id=\"theme-toggle\" onclick=\"toggleTheme()\" title=\"Toggle dark mode\"><span class=\"icon\"><i id=\"theme-icon\" class=\"fa-solid fa-moon\"></i></span></a></div></div></div></nav>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"navbar is-primary\" role=\"navigation\" aria-label=\"main navigation\"><div class=\"container\"><div class=\"navbar-brand\"><a class=\"navbar-item has-text-weight-bold\" href=\"/\">RecipeBox</a> <a role=\"button\" class=\"navbar-burger\" aria-label=\"menu\" aria-expanded=\"false\" data-target=\"navbarMenu\" onclick=\"this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');\"><span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span> <span aria-hidden=\"true\"></span></a></div><div id=\"navbarMenu\" class=\"navbar-menu\"><div class=\"navbar-start\"><a class=\"navbar-item\" href=\"/\">Home</a> <a class=\"navbar-item\" href=\"/recipes\">Browse</a> <a class=\"navbar-item\" href=\"/import\">Import</a></div><div class=\"navbar-end\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if userEmail != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"navbar-item\"><span class=\"has-text-light\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(userEmail)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/layout.templ`, Line: 25, Col: 47}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</span></div><div class=\"navbar-item\"><form method=\"POST\" action=\"/logout\"><button class=\"button is-small is-light\" type=\"submit\">Logout</button></form></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<a class=\"navbar-item\" id=\"theme-toggle\" onclick=\"toggleTheme()\" title=\"Toggle dark mode\"><span class=\"icon\"><i id=\"theme-icon\" class=\"fa-solid fa-moon\"></i></span></a></div></div></div></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +60,7 @@ func Navbar() templ.Component {
 	})
 }
 
-func Layout(title string) templ.Component {
+func Layout(title string, userEmail string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -53,41 +76,41 @@ func Layout(title string) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(title)
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/layout.templ`, Line: 38, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/layout.templ`, Line: 48, Col: 17}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " - RecipeBox</title><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\"><script type=\"module\" src=\"https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js\"></script><script src=\"https://kit.fontawesome.com/ba546e039f.js\" crossorigin=\"anonymous\"></script><style>\n\t\t\t\t.recipe-card .card-image img {\n\t\t\t\t\tobject-fit: cover;\n\t\t\t\t\theight: 200px;\n\t\t\t\t\twidth: 100%;\n\t\t\t\t}\n\t\t\t</style></head><body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Navbar().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " - RecipeBox</title><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\"><script type=\"module\" src=\"https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js\"></script><script src=\"https://kit.fontawesome.com/ba546e039f.js\" crossorigin=\"anonymous\"></script><style>\n\t\t\t\t.recipe-card .card-image img {\n\t\t\t\t\tobject-fit: cover;\n\t\t\t\t\theight: 200px;\n\t\t\t\t\twidth: 100%;\n\t\t\t\t}\n\t\t\t</style></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<section class=\"section\"><div class=\"container\">")
+		templ_7745c5c3_Err = Navbar(userEmail).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ_7745c5c3_Var2.Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<section class=\"section\"><div class=\"container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></section><script>\n\t\t\tfunction getPreferredTheme() {\n\t\t\t\tconst stored = localStorage.getItem('theme');\n\t\t\t\tif (stored) return stored;\n\t\t\t\treturn window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';\n\t\t\t}\n\t\t\tfunction applyTheme(theme) {\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', theme);\n\t\t\t\tconst icon = document.getElementById('theme-icon');\n\t\t\t\tif (icon) {\n\t\t\t\t\ticon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';\n\t\t\t\t}\n\t\t\t}\n\t\t\tfunction toggleTheme() {\n\t\t\t\tconst current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();\n\t\t\t\tconst next = current === 'dark' ? 'light' : 'dark';\n\t\t\t\tlocalStorage.setItem('theme', next);\n\t\t\t\tapplyTheme(next);\n\t\t\t}\n\t\t\tapplyTheme(getPreferredTheme());\n\t\t</script></body></html>")
+		templ_7745c5c3_Err = templ_7745c5c3_Var3.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></section><script>\n\t\t\tfunction getPreferredTheme() {\n\t\t\t\tconst stored = localStorage.getItem('theme');\n\t\t\t\tif (stored) return stored;\n\t\t\t\treturn window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';\n\t\t\t}\n\t\t\tfunction applyTheme(theme) {\n\t\t\t\tdocument.documentElement.setAttribute('data-theme', theme);\n\t\t\t\tconst icon = document.getElementById('theme-icon');\n\t\t\t\tif (icon) {\n\t\t\t\t\ticon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';\n\t\t\t\t}\n\t\t\t}\n\t\t\tfunction toggleTheme() {\n\t\t\t\tconst current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();\n\t\t\t\tconst next = current === 'dark' ? 'light' : 'dark';\n\t\t\t\tlocalStorage.setItem('theme', next);\n\t\t\t\tapplyTheme(next);\n\t\t\t}\n\t\t\tapplyTheme(getPreferredTheme());\n\t\t</script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

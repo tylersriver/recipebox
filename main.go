@@ -33,6 +33,7 @@ func initConfig() {
 	viper.SetDefault("server.host", "0.0.0.0")
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("database.path", "recipebox.db")
+	viper.SetDefault("session.secret", "recipebox-default-secret-change-me")
 
 	viper.SetEnvPrefix("RECIPEBOX")
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))

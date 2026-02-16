@@ -20,6 +20,7 @@ type RecipeResult struct {
 	Author       string
 	Nutrition    string
 	Notes        string
+	UserID       string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

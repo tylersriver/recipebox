@@ -23,8 +23,8 @@ func ingredientDisplay(ing dto.IngredientResult) string {
 	return s
 }
 
-templ RecipeDetail(r dto.RecipeResult) {
-	@Layout(r.Title) {
+templ RecipeDetail(r dto.RecipeResult, userEmail string) {
+	@Layout(r.Title, userEmail) {
 		<div class="columns">
 			<div class="column is-8">
 				<h1 class="title">{ r.Title }</h1>

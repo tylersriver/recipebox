@@ -1,0 +1,36 @@
+package template
+
+templ Login(errMsg string) {
+	@Layout("Login", "") {
+		<div class="columns">
+			<div class="column is-4 is-offset-4">
+				<h1 class="title">Login</h1>
+				if errMsg != "" {
+					<div class="notification is-danger">{ errMsg }</div>
+				}
+				<form method="POST" action="/login">
+					<div class="field">
+						<label class="label">Email</label>
+						<div class="control">
+							<input class="input" type="email" name="email" placeholder="you@example.com" required/>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Password</label>
+						<div class="control">
+							<input class="input" type="password" name="password" required/>
+						</div>
+					</div>
+					<div class="field">
+						<div class="control">
+							<button class="button is-primary is-fullwidth" type="submit">Login</button>
+						</div>
+					</div>
+				</form>
+				<p class="has-text-centered mt-4">
+					Don't have an account? <a href="/register">Register</a>
+				</p>
+			</div>
+		</div>
+	}
+}

@@ -9,10 +9,10 @@ import (
 // RecipeRepository defines the persistence interface for recipes.
 type RecipeRepository interface {
 	Save(ctx context.Context, recipe *entity.ValidatedRecipe) error
-	FindByID(ctx context.Context, id string) (*entity.Recipe, error)
-	FindBySourceURL(ctx context.Context, sourceURL string) (*entity.Recipe, error)
-	FindAll(ctx context.Context, offset, limit int) ([]*entity.Recipe, int, error)
-	Search(ctx context.Context, query string, offset, limit int) ([]*entity.Recipe, int, error)
-	Delete(ctx context.Context, id string) error
-	UpdateNotes(ctx context.Context, id string, notes string) error
+	FindByID(ctx context.Context, userID, id string) (*entity.Recipe, error)
+	FindBySourceURL(ctx context.Context, userID, sourceURL string) (*entity.Recipe, error)
+	FindAll(ctx context.Context, userID string, offset, limit int) ([]*entity.Recipe, int, error)
+	Search(ctx context.Context, userID, query string, offset, limit int) ([]*entity.Recipe, int, error)
+	Delete(ctx context.Context, userID, id string) error
+	UpdateNotes(ctx context.Context, userID, id string, notes string) error
 }

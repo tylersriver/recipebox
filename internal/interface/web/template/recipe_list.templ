@@ -4,8 +4,8 @@ import (
 	"github.com/tyler/recipebox/internal/application/dto"
 )
 
-templ RecipeList(result dto.RecipeListResult) {
-	@Layout("Browse Recipes") {
+templ RecipeList(result dto.RecipeListResult, userEmail string) {
+	@Layout("Browse Recipes", userEmail) {
 		<h1 class="title">Browse Recipes</h1>
 		<div data-signals:search="">
 			<div class="field mb-5">

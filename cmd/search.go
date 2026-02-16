@@ -30,7 +30,7 @@ var searchCmd = &cobra.Command{
 		svc := appservice.NewRecipeService(repo, scr)
 
 		q := strings.Join(args, " ")
-		result, err := svc.SearchRecipes(context.Background(), query.SearchRecipesQuery{Query: q, Limit: 100})
+		result, err := svc.SearchRecipes(context.Background(), "", query.SearchRecipesQuery{Query: q, Limit: 100})
 		if err != nil {
 			return err
 		}
