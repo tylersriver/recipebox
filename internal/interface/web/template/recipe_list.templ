@@ -7,6 +7,27 @@ import (
 templ RecipeList(result dto.RecipeListResult) {
 	@Layout("Browse Recipes") {
 		<h1 class="title">Browse Recipes</h1>
+		<div data-signals:search="">
+			<div class="field mb-5">
+				<div class="control">
+					<input
+						class="input is-medium"
+						type="text"
+						placeholder="Search recipes..."
+						data-bind:search
+						data-on:keyup__debounce.300ms="@get('/recipes/search')"
+					/>
+				</div>
+			</div>
+		</div>
+		<div id="browse-results">
+			@BrowseResults(result)
+		</div>
+	}
+}
+
+templ BrowseResults(result dto.RecipeListResult) {
+	<div id="browse-results">
 		if len(result.Recipes) == 0 {
 			<div class="notification is-info is-light">
 				No recipes found. <a href="/import">Import one</a> to get started!
@@ -21,5 +42,23 @@ templ RecipeList(result dto.RecipeListResult) {
 			</div>
 			@Pagination(result.Total, result.Offset, result.Limit)
 		}
-	}
+	</div>
+}
+
+templ BrowseSearchResults(recipes []dto.RecipeResult) {
+	<div id="browse-results">
+		if len(recipes) == 0 {
+			<div class="notification is-info is-light">
+				No recipes match your search.
+			</div>
+		} else {
+			<div class="columns is-multiline">
+				for _, r := range recipes {
+					<div class="column is-4">
+						@RecipeCard(r)
+					</div>
+				}
+			</div>
+		}
+	</div>
 }

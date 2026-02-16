@@ -95,6 +95,39 @@ func (h *RecipeHandler) Delete(c echo.Context) error {
 	return c.Redirect(http.StatusSeeOther, "/recipes")
 }
 
+type browseSearchSignals struct {
+	Search string `json:"search"`
+}
+
+func (h *RecipeHandler) Search(c echo.Context) error {
+	var signals browseSearchSignals
+	if err := datastar.ReadSignals(c.Request(), &signals); err != nil {
+		return err
+	}
+
+	sse := datastar.NewSSE(c.Response().Writer, c.Request())
+
+	if signals.Search == "" {
+		result, err := h.svc.ListRecipes(c.Request().Context(), query.ListRecipesQuery{
+			Offset: 0,
+			Limit:  12,
+		})
+		if err != nil {
+			return err
+		}
+		return renderSSEFragment(sse, tmpl.BrowseResults(*result))
+	}
+
+	result, err := h.svc.SearchRecipes(c.Request().Context(), query.SearchRecipesQuery{
+		Query: signals.Search,
+		Limit: 30,
+	})
+	if err != nil {
+		return err
+	}
+	return renderSSEFragment(sse, tmpl.BrowseSearchResults(result.Recipes))
+}
+
 func renderSSEFragment(sse *datastar.ServerSentEventGenerator, component templ.Component) error {
 	var buf bytes.Buffer
 	if err := component.Render(context.Background(), &buf); err != nil {

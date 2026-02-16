@@ -25,6 +25,7 @@ func NewServer(svc *appservice.RecipeService, addr string) *Server {
 
 	e.GET("/", homeHandler.Home)
 	e.GET("/recipes", recipeHandler.List)
+	e.GET("/recipes/search", recipeHandler.Search)
 	e.GET("/recipes/:id", recipeHandler.Detail)
 	e.GET("/import", recipeHandler.ImportPage)
 	e.POST("/import/submit", recipeHandler.ImportSubmit)
