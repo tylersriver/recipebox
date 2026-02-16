@@ -34,7 +34,7 @@ var showCmd = &cobra.Command{
 		id := args[0]
 
 		// Try exact match first
-		result, err := svc.GetRecipe(context.Background(), query.GetRecipeByIDQuery{ID: id})
+		result, err := svc.GetRecipe(context.Background(), "", query.GetRecipeByIDQuery{ID: id})
 		if err != nil {
 			// Try prefix match by listing all and filtering
 			result, err = findByPrefix(svc, id)
@@ -49,7 +49,7 @@ var showCmd = &cobra.Command{
 }
 
 func findByPrefix(svc *appservice.RecipeService, prefix string) (*dto.RecipeResult, error) {
-	list, err := svc.ListRecipes(context.Background(), query.ListRecipesQuery{Limit: 1000})
+	list, err := svc.ListRecipes(context.Background(), "", query.ListRecipesQuery{Limit: 1000})
 	if err != nil {
 		return nil, err
 	}

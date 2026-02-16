@@ -1,6 +1,6 @@
 package template
 
-templ Navbar() {
+templ Navbar(userEmail string) {
 	<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
 		<div class="container">
 			<div class="navbar-brand">
@@ -20,6 +20,16 @@ templ Navbar() {
 					<a class="navbar-item" href="/import">Import</a>
 				</div>
 				<div class="navbar-end">
+					if userEmail != "" {
+						<div class="navbar-item">
+							<span class="has-text-light">{ userEmail }</span>
+						</div>
+						<div class="navbar-item">
+							<form method="POST" action="/logout">
+								<button class="button is-small is-light" type="submit">Logout</button>
+							</form>
+						</div>
+					}
 					<a class="navbar-item" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">
 						<span class="icon"><i id="theme-icon" class="fa-solid fa-moon"></i></span>
 					</a>
@@ -29,7 +39,7 @@ templ Navbar() {
 	</nav>
 }
 
-templ Layout(title string) {
+templ Layout(title string, userEmail string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -48,7 +58,7 @@ templ Layout(title string) {
 			</style>
 		</head>
 		<body>
-			@Navbar()
+			@Navbar(userEmail)
 			<section class="section">
 				<div class="container">
 					{ children... }

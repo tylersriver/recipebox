@@ -27,7 +27,7 @@ var listCmd = &cobra.Command{
 		scr := scraper.NewRecipeScraper()
 		svc := appservice.NewRecipeService(repo, scr)
 
-		result, err := svc.ListRecipes(context.Background(), query.ListRecipesQuery{Limit: 100})
+		result, err := svc.ListRecipes(context.Background(), "", query.ListRecipesQuery{Limit: 100})
 		if err != nil {
 			return err
 		}

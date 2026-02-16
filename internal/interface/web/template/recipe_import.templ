@@ -1,7 +1,7 @@
 package template
 
-templ RecipeImport() {
-	@Layout("Import Recipe") {
+templ RecipeImport(userEmail string) {
+	@Layout("Import Recipe", userEmail) {
 		<div class="columns">
 			<div class="column is-6 is-offset-3">
 				<h1 class="title">Import Recipe</h1>

@@ -8,6 +8,7 @@ import (
 	"github.com/starfederation/datastar-go/datastar"
 	"github.com/tyler/recipebox/internal/application/query"
 	appservice "github.com/tyler/recipebox/internal/application/service"
+	"github.com/tyler/recipebox/internal/interface/web/middleware"
 	tmpl "github.com/tyler/recipebox/internal/interface/web/template"
 )
 
@@ -24,6 +25,8 @@ type searchSignals struct {
 }
 
 func (h *SearchHandler) Results(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+
 	// ReadSignals before NewSSE
 	var signals searchSignals
 	if err := datastar.ReadSignals(c.Request(), &signals); err != nil {
@@ -41,7 +44,7 @@ func (h *SearchHandler) Results(c echo.Context) error {
 		return nil
 	}
 
-	result, err := h.svc.SearchRecipes(c.Request().Context(), query.SearchRecipesQuery{
+	result, err := h.svc.SearchRecipes(c.Request().Context(), userID, query.SearchRecipesQuery{
 		Query: signals.Search,
 		Limit: 10,
 	})

@@ -1,10 +1,15 @@
 package web
 
 import (
+	"database/sql"
+
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	echomw "github.com/labstack/echo/v4/middleware"
 	appservice "github.com/tyler/recipebox/internal/application/service"
+	infrarepo "github.com/tyler/recipebox/internal/infrastructure/repository"
 	"github.com/tyler/recipebox/internal/interface/web/handler"
+	"github.com/tyler/recipebox/internal/interface/web/middleware"
 )
 
 type Server struct {
@@ -12,26 +17,41 @@ type Server struct {
 	addr string
 }
 
-func NewServer(svc *appservice.RecipeService, addr string) *Server {
+func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSecret string) *Server {
 	e := echo.New()
 	e.HideBanner = true
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	e.Use(echomw.Logger())
+	e.Use(echomw.Recover())
 
+	store := sessions.NewCookieStore([]byte(sessionSecret))
+
+	userRepo := infrarepo.NewSQLiteUserRepository(db)
+	authSvc := appservice.NewAuthService(userRepo)
+
+	authHandler := handler.NewAuthHandler(authSvc, store)
 	homeHandler := handler.NewHomeHandler(svc)
 	recipeHandler := handler.NewRecipeHandler(svc)
 	searchHandler := handler.NewSearchHandler(svc)
 
-	e.GET("/", homeHandler.Home)
-	e.GET("/recipes", recipeHandler.List)
-	e.GET("/recipes/search", recipeHandler.Search)
-	e.GET("/recipes/:id", recipeHandler.Detail)
-	e.GET("/import", recipeHandler.ImportPage)
-	e.POST("/import/submit", recipeHandler.ImportSubmit)
-	e.POST("/recipes/:id/notes", recipeHandler.UpdateNotes)
-	e.POST("/recipes/:id/delete", recipeHandler.Delete)
-	e.GET("/search/results", searchHandler.Results)
+	// Public routes
+	e.GET("/login", authHandler.LoginPage)
+	e.POST("/login", authHandler.LoginSubmit)
+	e.GET("/register", authHandler.RegisterPage)
+	e.POST("/register", authHandler.RegisterSubmit)
+	e.POST("/logout", authHandler.Logout)
+
+	// Protected routes
+	auth := e.Group("", middleware.RequireAuth(store))
+	auth.GET("/", homeHandler.Home)
+	auth.GET("/recipes", recipeHandler.List)
+	auth.GET("/recipes/search", recipeHandler.Search)
+	auth.GET("/recipes/:id", recipeHandler.Detail)
+	auth.GET("/import", recipeHandler.ImportPage)
+	auth.POST("/import/submit", recipeHandler.ImportSubmit)
+	auth.POST("/recipes/:id/notes", recipeHandler.UpdateNotes)
+	auth.POST("/recipes/:id/delete", recipeHandler.Delete)
+	auth.GET("/search/results", searchHandler.Results)
 
 	return &Server{echo: e, addr: addr}
 }

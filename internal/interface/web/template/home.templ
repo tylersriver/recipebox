@@ -4,8 +4,8 @@ import (
 	"github.com/tyler/recipebox/internal/application/dto"
 )
 
-templ Home(recipes []dto.RecipeResult) {
-	@Layout("Home") {
+templ Home(recipes []dto.RecipeResult, userEmail string) {
+	@Layout("Home", userEmail) {
 		<div class="columns">
 			<div class="column is-8 is-offset-2">
 				<div class="box" data-signals:search="">

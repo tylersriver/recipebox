@@ -29,8 +29,9 @@ var serveCmd = &cobra.Command{
 		host := viper.GetString("server.host")
 		port := viper.GetInt("server.port")
 		addr := fmt.Sprintf("%s:%d", host, port)
+		sessionSecret := viper.GetString("session.secret")
 
-		srv := web.NewServer(svc, addr)
+		srv := web.NewServer(svc, db, addr, sessionSecret)
 		fmt.Printf("RecipeBox server starting on http://%s\n", addr)
 		return srv.Start()
 	},
