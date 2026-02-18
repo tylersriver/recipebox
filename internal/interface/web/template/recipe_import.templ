@@ -2,52 +2,44 @@ package template
 
 templ RecipeImport(userEmail string) {
 	@Layout("Import Recipe", userEmail) {
-		<div class="columns">
-			<div class="column is-6 is-offset-3">
-				<h1 class="title">Import Recipe</h1>
-				<p class="subtitle">Paste a recipe URL to import it into your collection.</p>
-				<div class="box" data-signals:url="" data-signals:importing="false">
-					<div class="field">
-						<label class="label">Recipe URL</label>
-						<div class="control">
-							<input
-								class="input"
-								type="url"
-								placeholder="https://example.com/recipe"
-								data-bind:url
-							/>
-						</div>
-					</div>
-					<div class="field">
-						<div class="control">
-							<button
-								class="button is-primary"
-								data-on:click="@post('/import/submit')"
-								data-attr:disabled="$importing"
-								data-class:is-loading="$importing"
-							>
-								Import Recipe
-							</button>
-						</div>
-					</div>
-					<div id="import-result"></div>
-				</div>
+		<h1 class="page-title">Import Recipe</h1>
+		<p class="page-subtitle">Paste a recipe URL to import it into your collection.</p>
+		<div class="panel" data-signals:url="" data-signals:importing="false">
+			<div class="form-group">
+				<label class="form-label">Recipe URL</label>
+				<input
+					class="form-input"
+					type="url"
+					placeholder="https://example.com/recipe"
+					data-bind:url
+				/>
 			</div>
+			<div class="form-group">
+				<button
+					class="btn btn-primary"
+					data-on:click="@post('/import/submit')"
+					data-attr:disabled="$importing"
+					data-class:is-loading="$importing"
+				>
+					Import Recipe
+				</button>
+			</div>
+			<div id="import-result"></div>
 		</div>
 	}
 }
 
 templ ImportSuccess(title string, id string) {
-	<div id="import-result" class="notification is-success mt-4">
+	<div id="import-result" class="alert alert-success mt-2">
 		<p>
 			Successfully imported <strong>{ title }</strong>!
 		</p>
-		<a href={ templ.SafeURL("/recipes/" + id) } class="button is-small is-white mt-2">View Recipe</a>
+		<a href={ templ.SafeURL("/recipes/" + id) } class="btn btn-ghost btn-sm mt-1">View Recipe</a>
 	</div>
 }
 
 templ ImportError(msg string) {
-	<div id="import-result" class="notification is-danger mt-4">
+	<div id="import-result" class="alert alert-danger mt-2">
 		<p>{ msg }</p>
 	</div>
 }
