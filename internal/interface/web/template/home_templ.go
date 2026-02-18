@@ -45,40 +45,32 @@ func Home(recipes []dto.RecipeResult, userEmail string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"columns\"><div class=\"column is-8 is-offset-2\"><div class=\"box\" data-signals:search=\"\"><h2 class=\"title is-4\">Search Recipes</h2><div class=\"field\"><div class=\"control\"><input class=\"input is-medium\" type=\"text\" placeholder=\"Search by name, ingredient, cuisine...\" data-bind:search data-on:keyup__debounce.300ms=\"@get('/search/results')\"></div></div><div id=\"search-results\"></div></div></div></div><div class=\"mt-5\"><h2 class=\"title is-4\">Recent Recipes</h2>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"col-center-8\" data-signals:search=\"\"><div class=\"card-flat\"><h2 class=\"title title-md\">Search Recipes</h2><div class=\"form-group\"><input class=\"form-input form-input-lg\" type=\"text\" placeholder=\"Search by name, ingredient, cuisine...\" data-bind:search data-on:keyup__debounce.300ms=\"@get('/search/results')\"></div><div id=\"search-results\"></div></div></div><div class=\"mt-5\"><h2 class=\"title title-md\">Recent Recipes</h2>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if len(recipes) == 0 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"notification is-info is-light\">No recipes yet. <a href=\"/import\">Import one</a> to get started!</div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"notification notification-info\">No recipes yet. <a href=\"/import\">Import one</a> to get started!</div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"columns is-multiline\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"grid\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				for _, r := range recipes {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"column is-4\">")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
 					templ_7745c5c3_Err = RecipeCard(r).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

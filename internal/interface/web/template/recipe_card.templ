@@ -6,33 +6,31 @@ import (
 )
 
 templ RecipeCard(r dto.RecipeResult) {
-	<div class="card recipe-card">
+	<div class="card">
 		if r.ImageURL != "" {
 			<div class="card-image">
-				<figure class="image">
-					<img src={ r.ImageURL } alt={ r.Title }/>
-				</figure>
+				<img src={ r.ImageURL } alt={ r.Title }/>
 			</div>
 		}
-		<div class="card-content">
-			<p class="title is-5">
+		<div class="card-body">
+			<p class="title title-sm">
 				<a href={ templ.SafeURL(fmt.Sprintf("/recipes/%s", r.ID)) }>{ r.Title }</a>
 			</p>
 			if r.Author != "" {
-				<p class="subtitle is-6 has-text-grey">by { r.Author }</p>
+				<p class="subtitle">by { r.Author }</p>
 			}
-			<div class="tags">
+			<div class="tag-group">
 				if r.TotalTime != "" {
-					<span class="tag is-info is-light">{ r.TotalTime }</span>
+					<span class="tag tag-info">{ r.TotalTime }</span>
 				}
 				if r.Cuisine != "" {
-					<span class="tag is-success is-light">{ r.Cuisine }</span>
+					<span class="tag tag-success">{ r.Cuisine }</span>
 				}
 				if r.Course != "" {
-					<span class="tag is-warning is-light">{ r.Course }</span>
+					<span class="tag tag-warning">{ r.Course }</span>
 				}
 				if r.Servings != "" {
-					<span class="tag is-primary is-light">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
+					<span class="tag tag-primary">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
 				}
 			</div>
 		</div>

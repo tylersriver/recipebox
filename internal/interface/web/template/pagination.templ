@@ -4,12 +4,12 @@ import "fmt"
 
 templ Pagination(total, offset, limit int) {
 	if total > limit {
-		<nav class="pagination is-centered mt-5" role="navigation" aria-label="pagination">
+		<nav class="pagination" role="navigation" aria-label="pagination">
 			if offset > 0 {
-				<a class="pagination-previous" href={ templ.SafeURL(fmt.Sprintf("?offset=%d&limit=%d", max(0, offset-limit), limit)) }>Previous</a>
+				<a class="pagination-btn" href={ templ.SafeURL(fmt.Sprintf("?offset=%d&limit=%d", max(0, offset-limit), limit)) }>Previous</a>
 			}
 			if offset+limit < total {
-				<a class="pagination-next" href={ templ.SafeURL(fmt.Sprintf("?offset=%d&limit=%d", offset+limit, limit)) }>Next</a>
+				<a class="pagination-btn" href={ templ.SafeURL(fmt.Sprintf("?offset=%d&limit=%d", offset+limit, limit)) }>Next</a>
 			}
 		</nav>
 	}

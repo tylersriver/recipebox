@@ -41,19 +41,19 @@ func Register(errMsg string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"columns\"><div class=\"column is-4 is-offset-4\"><h1 class=\"title\">Register</h1>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"col-center-4\"><h1 class=\"title\">Register</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if errMsg != "" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"notification is-danger\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"notification notification-danger\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(errMsg)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/register.templ`, Line: 9, Col: 49}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/register.templ`, Line: 8, Col: 58}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -64,7 +64,7 @@ func Register(errMsg string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form method=\"POST\" action=\"/register\"><div class=\"field\"><label class=\"label\">Email</label><div class=\"control\"><input class=\"input\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" required></div></div><div class=\"field\"><label class=\"label\">Password</label><div class=\"control\"><input class=\"input\" type=\"password\" name=\"password\" minlength=\"8\" required></div><p class=\"help\">Must be at least 8 characters</p></div><div class=\"field\"><label class=\"label\">Confirm Password</label><div class=\"control\"><input class=\"input\" type=\"password\" name=\"confirm\" minlength=\"8\" required></div></div><div class=\"field\"><div class=\"control\"><button class=\"button is-primary is-fullwidth\" type=\"submit\">Register</button></div></div></form><p class=\"has-text-centered mt-4\">Already have an account? <a href=\"/login\">Login</a></p></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form method=\"POST\" action=\"/register\"><div class=\"form-group\"><label class=\"form-label\">Email</label> <input class=\"form-input\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" required></div><div class=\"form-group\"><label class=\"form-label\">Password</label> <input class=\"form-input\" type=\"password\" name=\"password\" minlength=\"8\" required><p class=\"form-help\">Must be at least 8 characters</p></div><div class=\"form-group\"><label class=\"form-label\">Confirm Password</label> <input class=\"form-input\" type=\"password\" name=\"confirm\" minlength=\"8\" required></div><div class=\"form-group\"><button class=\"btn btn-primary btn-full\" type=\"submit\">Register</button></div></form><p class=\"text-center mt-4 text-muted\">Already have an account? <a href=\"/login\">Login</a></p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

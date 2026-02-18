@@ -41,7 +41,7 @@ func RecipeImport(userEmail string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"columns\"><div class=\"column is-6 is-offset-3\"><h1 class=\"title\">Import Recipe</h1><p class=\"subtitle\">Paste a recipe URL to import it into your collection.</p><div class=\"box\" data-signals:url=\"\" data-signals:importing=\"false\"><div class=\"field\"><label class=\"label\">Recipe URL</label><div class=\"control\"><input class=\"input\" type=\"url\" placeholder=\"https://example.com/recipe\" data-bind:url></div></div><div class=\"field\"><div class=\"control\"><button class=\"button is-primary\" data-on:click=\"@post('/import/submit')\" data-attr:disabled=\"$importing\" data-class:is-loading=\"$importing\">Import Recipe</button></div></div><div id=\"import-result\"></div></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"col-center-6\"><h1 class=\"title\">Import Recipe</h1><p class=\"subtitle\">Paste a recipe URL to import it into your collection.</p><div class=\"card-flat\" data-signals:url=\"\" data-signals:importing=\"false\"><div class=\"form-group\"><label class=\"form-label\">Recipe URL</label> <input class=\"form-input\" type=\"url\" placeholder=\"https://example.com/recipe\" data-bind:url></div><div class=\"form-group\"><button class=\"btn btn-primary\" data-on:click=\"@post('/import/submit')\" data-attr:disabled=\"$importing\" data-class:btn-loading=\"$importing\">Import Recipe</button></div><div id=\"import-result\"></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -76,14 +76,14 @@ func ImportSuccess(title string, id string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div id=\"import-result\" class=\"notification is-success mt-4\"><p>Successfully imported <strong>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div id=\"import-result\" class=\"notification notification-success mt-4\"><p>Successfully imported <strong>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_import.templ`, Line: 43, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_import.templ`, Line: 37, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -96,13 +96,13 @@ func ImportSuccess(title string, id string) templ.Component {
 		var templ_7745c5c3_Var5 templ.SafeURL
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL("/recipes/" + id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_import.templ`, Line: 45, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_import.templ`, Line: 39, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"button is-small is-white mt-2\">View Recipe</a></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"btn btn-ghost btn-sm mt-2\">View Recipe</a></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -131,14 +131,14 @@ func ImportError(msg string) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div id=\"import-result\" class=\"notification is-danger mt-4\"><p>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div id=\"import-result\" class=\"notification notification-danger mt-4\"><p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(msg)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_import.templ`, Line: 51, Col: 10}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_import.templ`, Line: 45, Col: 10}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
