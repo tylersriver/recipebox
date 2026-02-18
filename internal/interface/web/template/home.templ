@@ -6,37 +6,29 @@ import (
 
 templ Home(recipes []dto.RecipeResult, userEmail string) {
 	@Layout("Home", userEmail) {
-		<div class="columns">
-			<div class="column is-8 is-offset-2">
-				<div class="box" data-signals:search="">
-					<h2 class="title is-4">Search Recipes</h2>
-					<div class="field">
-						<div class="control">
-							<input
-								class="input is-medium"
-								type="text"
-								placeholder="Search by name, ingredient, cuisine..."
-								data-bind:search
-								data-on:keyup__debounce.300ms="@get('/search/results')"
-							/>
-						</div>
-					</div>
-					<div id="search-results"></div>
-				</div>
+		<div class="panel" data-signals:search="">
+			<h2 class="section-title">Search Recipes</h2>
+			<div class="form-group">
+				<input
+					class="form-input input-lg"
+					type="text"
+					placeholder="Search by name, ingredient, cuisine..."
+					data-bind:search
+					data-on:keyup__debounce.300ms="@get('/search/results')"
+				/>
 			</div>
+			<div id="search-results"></div>
 		</div>
-		<div class="mt-5">
-			<h2 class="title is-4">Recent Recipes</h2>
+		<div class="mt-4">
+			<h2 class="section-title">Recent Recipes</h2>
 			if len(recipes) == 0 {
-				<div class="notification is-info is-light">
+				<div class="alert alert-info">
 					No recipes yet. <a href="/import">Import one</a> to get started!
 				</div>
 			} else {
-				<div class="columns is-multiline">
+				<div class="card-grid">
 					for _, r := range recipes {
-						<div class="column is-4">
-							@RecipeCard(r)
-						</div>
+						@RecipeCard(r)
 					}
 				</div>
 			}

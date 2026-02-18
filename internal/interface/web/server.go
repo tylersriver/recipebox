@@ -23,6 +23,7 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 
 	e.Use(echomw.Logger())
 	e.Use(echomw.Recover())
+	e.Static("/static", "static")
 
 	store := sessions.NewCookieStore([]byte(sessionSecret))
 

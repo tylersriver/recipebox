@@ -1,38 +1,26 @@
 package template
 
 templ Navbar(userEmail string) {
-	<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+	<nav class="navbar">
 		<div class="container">
-			<div class="navbar-brand">
-				<a class="navbar-item has-text-weight-bold" href="/">RecipeBox</a>
-				<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"
-					onclick="this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');">
-					<span aria-hidden="true"></span>
-					<span aria-hidden="true"></span>
-					<span aria-hidden="true"></span>
-					<span aria-hidden="true"></span>
-				</a>
-			</div>
+			<a class="navbar-brand" href="/">RecipeBox</a>
+			<button class="navbar-burger" aria-label="menu"
+				onclick="document.getElementById('navbarMenu').classList.toggle('is-open')">
+				&#9776;
+			</button>
 			<div id="navbarMenu" class="navbar-menu">
-				<div class="navbar-start">
-					<a class="navbar-item" href="/">Home</a>
-					<a class="navbar-item" href="/recipes">Browse</a>
-					<a class="navbar-item" href="/import">Import</a>
+				<div class="navbar-links">
+					<a href="/">Home</a>
+					<a href="/recipes">Browse</a>
+					<a href="/import">Import</a>
 				</div>
 				<div class="navbar-end">
 					if userEmail != "" {
-						<div class="navbar-item">
-							<span class="has-text-light">{ userEmail }</span>
-						</div>
-						<div class="navbar-item">
-							<form method="POST" action="/logout">
-								<button class="button is-small is-light" type="submit">Logout</button>
-							</form>
-						</div>
+						<span class="navbar-email">{ userEmail }</span>
+						<form method="POST" action="/logout">
+							<button class="btn btn-ghost btn-sm" type="submit">Logout</button>
+						</form>
 					}
-					<a class="navbar-item" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">
-						<span class="icon"><i id="theme-icon" class="fa-solid fa-moon"></i></span>
-					</a>
 				</div>
 			</div>
 		</div>
@@ -46,45 +34,19 @@ templ Layout(title string, userEmail string) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<title>{ title } - RecipeBox</title>
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+			<link rel="stylesheet" href="/static/style.css"/>
 			<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
-			<script src="https://kit.fontawesome.com/ba546e039f.js" crossorigin="anonymous"></script>
-			<style>
-				.recipe-card .card-image img {
-					object-fit: cover;
-					height: 200px;
-					width: 100%;
-				}
-			</style>
 		</head>
 		<body>
 			@Navbar(userEmail)
-			<section class="section">
+			<div class="page-content">
 				<div class="container">
 					{ children... }
 				</div>
-			</section>
-		<script>
-			function getPreferredTheme() {
-				const stored = localStorage.getItem('theme');
-				if (stored) return stored;
-				return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-			}
-			function applyTheme(theme) {
-				document.documentElement.setAttribute('data-theme', theme);
-				const icon = document.getElementById('theme-icon');
-				if (icon) {
-					icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-				}
-			}
-			function toggleTheme() {
-				const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
-				const next = current === 'dark' ? 'light' : 'dark';
-				localStorage.setItem('theme', next);
-				applyTheme(next);
-			}
-			applyTheme(getPreferredTheme());
-		</script>
+			</div>
 		</body>
 	</html>
 }

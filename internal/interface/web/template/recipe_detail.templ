@@ -25,71 +25,65 @@ func ingredientDisplay(ing dto.IngredientResult) string {
 
 templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 	@Layout(r.Title, userEmail) {
-		<div class="columns">
-			<div class="column is-8">
-				<h1 class="title">{ r.Title }</h1>
+		<div class="grid">
+			<div class="col-8">
+				<h1 class="page-title">{ r.Title }</h1>
 				if r.Author != "" {
-					<p class="subtitle is-6 has-text-grey">by { r.Author }</p>
+					<p class="text-secondary mb-2">by { r.Author }</p>
 				}
 				if r.Description != "" {
-					<div class="content">
-						<p>{ r.Description }</p>
-					</div>
+					<p class="mb-3">{ r.Description }</p>
 				}
-				<div class="tags are-medium mb-4">
+				<div class="badge-group mb-3">
 					if r.PrepTime != "" {
-						<span class="tag is-info is-light">{ fmt.Sprintf("Prep: %s", r.PrepTime) }</span>
+						<span class="badge badge-info">{ fmt.Sprintf("Prep: %s", r.PrepTime) }</span>
 					}
 					if r.CookTime != "" {
-						<span class="tag is-info is-light">{ fmt.Sprintf("Cook: %s", r.CookTime) }</span>
+						<span class="badge badge-info">{ fmt.Sprintf("Cook: %s", r.CookTime) }</span>
 					}
 					if r.TotalTime != "" {
-						<span class="tag is-info">{ fmt.Sprintf("Total: %s", r.TotalTime) }</span>
+						<span class="badge badge-info">{ fmt.Sprintf("Total: %s", r.TotalTime) }</span>
 					}
 					if r.Servings != "" {
-						<span class="tag is-primary is-light">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
+						<span class="badge badge-accent">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
 					}
 					if r.Cuisine != "" {
-						<span class="tag is-success is-light">{ r.Cuisine }</span>
+						<span class="badge badge-success">{ r.Cuisine }</span>
 					}
 					if r.Course != "" {
-						<span class="tag is-warning is-light">{ r.Course }</span>
+						<span class="badge badge-warning">{ r.Course }</span>
 					}
 				</div>
-				<div class="box">
-					<h2 class="title is-4">Ingredients</h2>
+				<div class="panel">
+					<h2 class="section-title">Ingredients</h2>
 					<ul>
 						for _, ing := range r.Ingredients {
 							<li>{ ingredientDisplay(ing) }</li>
 						}
 					</ul>
 				</div>
-				<div class="box">
-					<h2 class="title is-4">Instructions</h2>
-					<ol style="padding-left: 1.5em;">
+				<div class="panel">
+					<h2 class="section-title">Instructions</h2>
+					<ol>
 						for _, inst := range r.Instructions {
-							<li class="mb-3">{ inst.Text }</li>
+							<li class="mb-1">{ inst.Text }</li>
 						}
 					</ol>
 				</div>
-				<div class="box">
-					<h2 class="title is-4">My Notes</h2>
+				<div class="panel">
+					<h2 class="section-title">My Notes</h2>
 					<form id="notes-form" onsubmit="saveNotes(event)">
-						<div class="field">
-							<div class="control">
-								<textarea class="textarea" id="notes-input" name="notes" placeholder="Add your personal notes, tweaks, or modifications...">{ r.Notes }</textarea>
-							</div>
+						<div class="form-group">
+							<textarea class="form-textarea" id="notes-input" name="notes" placeholder="Add your personal notes, tweaks, or modifications...">{ r.Notes }</textarea>
 						</div>
-						<div class="field">
-							<div class="control">
-								<button class="button is-primary" type="submit" id="notes-save-btn">Save Notes</button>
-							</div>
+						<div class="form-group">
+							<button class="btn btn-primary" type="submit" id="notes-save-btn">Save Notes</button>
 						</div>
 					</form>
 				</div>
-				<div id="notes-toast" class="notification is-hidden" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; min-width: 250px;">
-					<button class="delete" onclick="this.parentElement.classList.add('is-hidden')"></button>
+				<div id="notes-toast" class="toast is-hidden">
 					<span id="notes-toast-msg"></span>
+					<button class="toast-close" onclick="this.parentElement.classList.add('is-hidden')">&times;</button>
 				</div>
 				<script>
 					function saveNotes(e) {
@@ -114,22 +108,22 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 					}
 					function showNotesToast(msg, success) {
 						var toast = document.getElementById('notes-toast');
-						toast.className = 'notification ' + (success ? 'is-success' : 'is-danger');
+						toast.className = 'toast ' + (success ? 'toast-success' : 'toast-danger');
 						document.getElementById('notes-toast-msg').textContent = msg;
 						setTimeout(function() { toast.classList.add('is-hidden'); }, 3000);
 					}
 				</script>
 				if r.SourceURL != "" {
-					<p class="has-text-grey">
+					<p class="text-secondary mt-2">
 						<a href={ templ.SafeURL(r.SourceURL) } target="_blank" rel="noopener">View original recipe</a>
 					</p>
 				}
 			</div>
-			<div class="column is-4">
+			<div class="col-4">
 				if r.ImageURL != "" {
-					<figure class="image">
+					<div class="recipe-image">
 						<img src={ r.ImageURL } alt={ r.Title }/>
-					</figure>
+					</div>
 				}
 			</div>
 		</div>

@@ -8,27 +8,19 @@ import (
 templ SearchResults(recipes []dto.RecipeResult) {
 	<div id="search-results">
 		if len(recipes) == 0 {
-			<p class="has-text-grey mt-3">No recipes found.</p>
+			<p class="text-muted mt-2">No recipes found.</p>
 		} else {
-			<p class="has-text-grey mt-3 mb-3">{ fmt.Sprintf("Found %d recipe(s)", len(recipes)) }</p>
+			<p class="text-secondary mt-2 mb-2">{ fmt.Sprintf("Found %d recipe(s)", len(recipes)) }</p>
 			for _, r := range recipes {
-				<div class="box p-3 mb-2">
-					<div class="columns is-vcentered is-mobile">
-						if r.ImageURL != "" {
-							<div class="column is-narrow">
-								<figure class="image is-48x48">
-									<img src={ r.ImageURL } alt={ r.Title } style="object-fit: cover; border-radius: 4px;"/>
-								</figure>
-							</div>
+				<div class="search-result">
+					if r.ImageURL != "" {
+						<img src={ r.ImageURL } alt={ r.Title }/>
+					}
+					<div class="search-result-info">
+						<a href={ templ.SafeURL(fmt.Sprintf("/recipes/%s", r.ID)) }>{ r.Title }</a>
+						if r.Author != "" {
+							<span class="search-result-author"> by { r.Author }</span>
 						}
-						<div class="column">
-							<a href={ templ.SafeURL(fmt.Sprintf("/recipes/%s", r.ID)) }>
-								<strong>{ r.Title }</strong>
-							</a>
-							if r.Author != "" {
-								<span class="has-text-grey is-size-7"> by { r.Author }</span>
-							}
-						</div>
 					</div>
 				</div>
 			}
