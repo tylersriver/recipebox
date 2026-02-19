@@ -3,14 +3,14 @@ package template
 templ Navbar(userEmail string) {
 	<nav class="navbar">
 		<div class="container">
-			<a class="navbar-brand" href="/">RecipeBox</a>
+			<a class="navbar-brand" href={ templ.SafeURL(func() string { if userEmail != "" { return "/home" }; return "/" }()) }>RecipeBox</a>
 			<button class="navbar-burger" aria-label="menu"
 				onclick="document.getElementById('navbarMenu').classList.toggle('is-open')">
 				&#9776;
 			</button>
 			<div id="navbarMenu" class="navbar-menu">
 				<div class="navbar-links">
-					<a href="/">Home</a>
+					<a href="/home">Home</a>
 					<a href="/recipes">Browse</a>
 					<a href="/import">Import</a>
 				</div>

@@ -30,12 +30,14 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	userRepo := infrarepo.NewSQLiteUserRepository(db)
 	authSvc := appservice.NewAuthService(userRepo)
 
+	landingHandler := handler.NewLandingHandler(store)
 	authHandler := handler.NewAuthHandler(authSvc, store)
 	homeHandler := handler.NewHomeHandler(svc)
 	recipeHandler := handler.NewRecipeHandler(svc)
 	searchHandler := handler.NewSearchHandler(svc)
 
 	// Public routes
+	e.GET("/", landingHandler.Index)
 	e.GET("/login", authHandler.LoginPage)
 	e.POST("/login", authHandler.LoginSubmit)
 	e.GET("/register", authHandler.RegisterPage)
@@ -45,7 +47,7 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 
 	// Protected routes
 	auth := e.Group("", middleware.RequireAuth(store))
-	auth.GET("/", homeHandler.Home)
+	auth.GET("/home", homeHandler.Home)
 	auth.GET("/recipes", recipeHandler.List)
 	auth.GET("/recipes/search", recipeHandler.Search)
 	auth.GET("/recipes/:id", recipeHandler.Detail)
