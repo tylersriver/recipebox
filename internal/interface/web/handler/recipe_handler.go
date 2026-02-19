@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
@@ -97,6 +98,9 @@ func (h *RecipeHandler) Delete(c echo.Context) error {
 	userID := middleware.GetUserID(c)
 	id := c.Param("id")
 	if err := h.svc.DeleteRecipe(c.Request().Context(), userID, command.DeleteRecipeCommand{ID: id}); err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return c.String(http.StatusNotFound, "recipe not found")
+		}
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
 	return c.Redirect(http.StatusSeeOther, "/recipes")
