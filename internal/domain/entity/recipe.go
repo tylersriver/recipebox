@@ -25,6 +25,7 @@ type Recipe struct {
 	Author       string
 	Nutrition    string
 	Notes        string
+	ShareToken   string
 	UserID       string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time

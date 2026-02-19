@@ -80,7 +80,7 @@ func (r *sqliteRecipeRepository) Save(ctx context.Context, vr *entity.ValidatedR
 }
 
 func (r *sqliteRecipeRepository) FindByID(ctx context.Context, userID, id string) (*entity.Recipe, error) {
-	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, user_id, created_at, updated_at FROM recipes WHERE id = ? AND user_id = ?", id, userID)
+	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, COALESCE(share_token, ''), user_id, created_at, updated_at FROM recipes WHERE id = ? AND user_id = ?", id, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (r *sqliteRecipeRepository) FindByID(ctx context.Context, userID, id string
 }
 
 func (r *sqliteRecipeRepository) FindBySourceURL(ctx context.Context, userID, sourceURL string) (*entity.Recipe, error) {
-	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, user_id, created_at, updated_at FROM recipes WHERE source_url = ? AND user_id = ?", sourceURL, userID)
+	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, COALESCE(share_token, ''), user_id, created_at, updated_at FROM recipes WHERE source_url = ? AND user_id = ?", sourceURL, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (r *sqliteRecipeRepository) FindAll(ctx context.Context, userID string, off
 	}
 
 	rows, err := r.db.QueryContext(ctx,
-		"SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, user_id, created_at, updated_at FROM recipes WHERE user_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?",
+		"SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, COALESCE(share_token, ''), user_id, created_at, updated_at FROM recipes WHERE user_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?",
 		userID, limit, offset,
 	)
 	if err != nil {
@@ -134,7 +134,7 @@ func (r *sqliteRecipeRepository) Search(ctx context.Context, userID, query strin
 	sqlQuery := `
 		SELECT DISTINCT r.id, r.title, r.description, r.prep_time, r.cook_time, r.total_time,
 		       r.servings, r.cuisine, r.course, r.image_url, r.source_url, r.author, r.nutrition,
-		       r.notes, r.user_id, r.created_at, r.updated_at
+		       r.notes, COALESCE(r.share_token, ''), r.user_id, r.created_at, r.updated_at
 		FROM recipes r
 		LEFT JOIN ingredients i ON i.recipe_id = r.id
 		WHERE r.user_id = ?
@@ -205,7 +205,7 @@ func (r *sqliteRecipeRepository) scanRecipe(ctx context.Context, query string, a
 		&recipe.PrepTime, &recipe.CookTime, &recipe.TotalTime,
 		&recipe.Servings, &recipe.Cuisine, &recipe.Course,
 		&recipe.ImageURL, &recipe.SourceURL, &recipe.Author, &recipe.Nutrition,
-		&recipe.Notes, &recipe.UserID, &recipe.CreatedAt, &recipe.UpdatedAt,
+		&recipe.Notes, &recipe.ShareToken, &recipe.UserID, &recipe.CreatedAt, &recipe.UpdatedAt,
 	)
 	if err == sql.ErrNoRows {
 		return nil, nil
@@ -225,7 +225,7 @@ func (r *sqliteRecipeRepository) scanRecipes(ctx context.Context, rows *sql.Rows
 			&recipe.PrepTime, &recipe.CookTime, &recipe.TotalTime,
 			&recipe.Servings, &recipe.Cuisine, &recipe.Course,
 			&recipe.ImageURL, &recipe.SourceURL, &recipe.Author, &recipe.Nutrition,
-			&recipe.Notes, &recipe.UserID, &recipe.CreatedAt, &recipe.UpdatedAt,
+			&recipe.Notes, &recipe.ShareToken, &recipe.UserID, &recipe.CreatedAt, &recipe.UpdatedAt,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("scanning recipe row: %w", err)
@@ -236,6 +236,32 @@ func (r *sqliteRecipeRepository) scanRecipes(ctx context.Context, rows *sql.Rows
 		recipes = append(recipes, recipe)
 	}
 	return recipes, rows.Err()
+}
+
+func (r *sqliteRecipeRepository) FindByShareToken(ctx context.Context, token string) (*entity.Recipe, error) {
+	recipe, err := r.scanRecipe(ctx, "SELECT id, title, description, prep_time, cook_time, total_time, servings, cuisine, course, image_url, source_url, author, nutrition, notes, COALESCE(share_token, ''), user_id, created_at, updated_at FROM recipes WHERE share_token = ?", token)
+	if err != nil {
+		return nil, err
+	}
+	if recipe == nil {
+		return nil, nil
+	}
+	if err := r.loadRelations(ctx, recipe); err != nil {
+		return nil, err
+	}
+	return recipe, nil
+}
+
+func (r *sqliteRecipeRepository) SetShareToken(ctx context.Context, userID, id, token string) error {
+	result, err := r.db.ExecContext(ctx, "UPDATE recipes SET share_token = ?, updated_at = datetime('now') WHERE id = ? AND user_id = ?", token, id, userID)
+	if err != nil {
+		return fmt.Errorf("setting share token: %w", err)
+	}
+	n, _ := result.RowsAffected()
+	if n == 0 {
+		return fmt.Errorf("recipe not found: %s", id)
+	}
+	return nil
 }
 
 func (r *sqliteRecipeRepository) loadRelations(ctx context.Context, recipe *entity.Recipe) error {

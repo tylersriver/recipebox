@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 
 	"github.com/tyler/recipebox/internal/application/command"
@@ -81,6 +83,52 @@ func (s *RecipeService) ListRecipes(ctx context.Context, userID string, q query.
 // UpdateNotes updates the personal notes for a recipe.
 func (s *RecipeService) UpdateNotes(ctx context.Context, userID string, cmd command.UpdateNotesCommand) error {
 	return s.repo.UpdateNotes(ctx, userID, cmd.ID, cmd.Notes)
+}
+
+// GetSharedRecipe retrieves a recipe by its public share token.
+func (s *RecipeService) GetSharedRecipe(ctx context.Context, token string) (*dto.RecipeResult, error) {
+	recipe, err := s.repo.FindByShareToken(ctx, token)
+	if err != nil {
+		return nil, err
+	}
+	if recipe == nil {
+		return nil, fmt.Errorf("shared recipe not found")
+	}
+	result := mapper.ToDTO(recipe)
+	return &result, nil
+}
+
+// ShareRecipe generates a share token for a recipe, or returns the existing one.
+func (s *RecipeService) ShareRecipe(ctx context.Context, userID string, cmd command.ShareRecipeCommand) (*dto.RecipeResult, error) {
+	recipe, err := s.repo.FindByID(ctx, userID, cmd.ID)
+	if err != nil {
+		return nil, err
+	}
+	if recipe == nil {
+		return nil, fmt.Errorf("recipe not found: %s", cmd.ID)
+	}
+
+	if recipe.ShareToken == "" {
+		token, err := generateShareToken()
+		if err != nil {
+			return nil, fmt.Errorf("generating share token: %w", err)
+		}
+		if err := s.repo.SetShareToken(ctx, userID, cmd.ID, token); err != nil {
+			return nil, err
+		}
+		recipe.ShareToken = token
+	}
+
+	result := mapper.ToDTO(recipe)
+	return &result, nil
+}
+
+func generateShareToken() (string, error) {
+	b := make([]byte, 9) // 9 bytes → 12 base64url chars
+	if _, err := rand.Read(b); err != nil {
+		return "", err
+	}
+	return base64.RawURLEncoding.EncodeToString(b), nil
 }
 
 // SearchRecipes searches for recipes matching a query string.
