@@ -155,9 +155,19 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 							</p>
 						}
 					</div>
-					<form method="POST" action={ templ.SafeURL(fmt.Sprintf("/recipes/%s/delete", r.ID)) } onsubmit="return confirm('Are you sure you want to delete this recipe? This cannot be undone.')">
-						<button class="btn btn-danger btn-sm" type="submit">Delete Recipe</button>
-					</form>
+					<button class="btn btn-danger btn-sm" type="button" onclick="document.getElementById('delete-modal').classList.add('is-active')">Delete Recipe</button>
+				</div>
+				<div id="delete-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('is-active')">
+					<div class="modal">
+						<div class="modal-title">Delete Recipe</div>
+						<div class="modal-body">Are you sure you want to delete this recipe? This cannot be undone.</div>
+						<div class="modal-actions">
+							<button class="btn btn-ghost btn-sm" type="button" onclick="document.getElementById('delete-modal').classList.remove('is-active')">Cancel</button>
+							<form method="POST" action={ templ.SafeURL(fmt.Sprintf("/recipes/%s/delete", r.ID)) }>
+								<button class="btn btn-danger btn-sm" type="submit">Delete</button>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-4">

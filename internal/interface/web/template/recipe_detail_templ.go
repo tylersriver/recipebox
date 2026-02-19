@@ -319,20 +319,20 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "</div><form method=\"POST\" action=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "</div><button class=\"btn btn-danger btn-sm\" type=\"button\" onclick=\"document.getElementById('delete-modal').classList.add('is-active')\">Delete Recipe</button></div><div id=\"delete-modal\" class=\"modal-overlay\" onclick=\"if(event.target===this)this.classList.remove('is-active')\"><div class=\"modal\"><div class=\"modal-title\">Delete Recipe</div><div class=\"modal-body\">Are you sure you want to delete this recipe? This cannot be undone.</div><div class=\"modal-actions\"><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"document.getElementById('delete-modal').classList.remove('is-active')\">Cancel</button><form method=\"POST\" action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var16 templ.SafeURL
 			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/recipes/%s/delete", r.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 158, Col: 88}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 166, Col: 90}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" onsubmit=\"return confirm('Are you sure you want to delete this recipe? This cannot be undone.')\"><button class=\"btn btn-danger btn-sm\" type=\"submit\">Delete Recipe</button></form></div></div><div class=\"col-4\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\"><button class=\"btn btn-danger btn-sm\" type=\"submit\">Delete</button></form></div></div></div></div><div class=\"col-4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -344,7 +344,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var17 string
 				templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(r.ImageURL)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 166, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 176, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 				if templ_7745c5c3_Err != nil {
@@ -357,7 +357,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var18 string
 				templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(r.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 166, Col: 43}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 176, Col: 43}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 				if templ_7745c5c3_Err != nil {
