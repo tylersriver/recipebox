@@ -44,7 +44,7 @@ func (h *AuthHandler) LoginSubmit(c echo.Context) error {
 		return Render(c, http.StatusOK, tmpl.Login("Failed to create session"))
 	}
 
-	return c.Redirect(http.StatusSeeOther, "/")
+	return c.Redirect(http.StatusSeeOther, "/home")
 }
 
 func (h *AuthHandler) RegisterPage(c echo.Context) error {
@@ -80,7 +80,7 @@ func (h *AuthHandler) RegisterSubmit(c echo.Context) error {
 		return Render(c, http.StatusOK, tmpl.Register("Failed to create session"))
 	}
 
-	return c.Redirect(http.StatusSeeOther, "/")
+	return c.Redirect(http.StatusSeeOther, "/home")
 }
 
 func (h *AuthHandler) Logout(c echo.Context) error {
