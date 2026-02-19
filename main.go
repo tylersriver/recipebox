@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -40,6 +41,14 @@ func initConfig() {
 	viper.AutomaticEnv()
 
 	viper.ReadInConfig() // ignore error if config not found
+
+	// Honor $PORT env var (injected by Railway and other PaaS providers)
+	// when RECIPEBOX_SERVER_PORT is not explicitly set.
+	if os.Getenv("RECIPEBOX_SERVER_PORT") == "" {
+		if p, err := strconv.Atoi(os.Getenv("PORT")); err == nil && p > 0 {
+			viper.Set("server.port", p)
+		}
+	}
 }
 
 func main() {
