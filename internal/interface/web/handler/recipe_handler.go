@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -144,6 +145,32 @@ func (h *RecipeHandler) Search(c echo.Context) error {
 		return err
 	}
 	return renderSSEFragment(sse, tmpl.BrowseSearchResults(result.Recipes))
+}
+
+func (h *RecipeHandler) SharedDetail(c echo.Context) error {
+	token := c.Param("token")
+	result, err := h.svc.GetSharedRecipe(c.Request().Context(), token)
+	if err != nil {
+		return c.String(http.StatusNotFound, "Recipe not found")
+	}
+
+	return Render(c, http.StatusOK, tmpl.SharedRecipeDetail(*result))
+}
+
+func (h *RecipeHandler) GenerateShareLink(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+	id := c.Param("id")
+	result, err := h.svc.ShareRecipe(c.Request().Context(), userID, command.ShareRecipeCommand{ID: id})
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	scheme := "https"
+	if c.Request().TLS == nil && c.Request().Header.Get("X-Forwarded-Proto") == "" {
+		scheme = "http"
+	}
+	shareURL := fmt.Sprintf("%s://%s/share/%s", scheme, c.Request().Host, result.ShareToken)
+	return c.JSON(http.StatusOK, map[string]string{"url": shareURL, "token": result.ShareToken})
 }
 
 func renderSSEFragment(sse *datastar.ServerSentEventGenerator, component templ.Component) error {

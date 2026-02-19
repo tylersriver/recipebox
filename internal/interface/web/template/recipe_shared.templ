@@ -1,0 +1,73 @@
+package template
+
+import (
+	"fmt"
+	"github.com/tyler/recipebox/internal/application/dto"
+)
+
+templ SharedRecipeDetail(r dto.RecipeResult) {
+	@Layout(r.Title, "") {
+		<div class="grid">
+			<div class="col-8">
+				<h1 class="page-title">{ r.Title }</h1>
+				if r.Author != "" {
+					<p class="text-secondary mb-2">by { r.Author }</p>
+				}
+				if r.Description != "" {
+					<p class="mb-3">{ r.Description }</p>
+				}
+				<div class="badge-group mb-3">
+					if r.PrepTime != "" {
+						<span class="badge badge-info">{ fmt.Sprintf("Prep: %s", r.PrepTime) }</span>
+					}
+					if r.CookTime != "" {
+						<span class="badge badge-info">{ fmt.Sprintf("Cook: %s", r.CookTime) }</span>
+					}
+					if r.TotalTime != "" {
+						<span class="badge badge-info">{ fmt.Sprintf("Total: %s", r.TotalTime) }</span>
+					}
+					if r.Servings != "" {
+						<span class="badge badge-accent">{ fmt.Sprintf("Serves %s", r.Servings) }</span>
+					}
+					if r.Cuisine != "" {
+						<span class="badge badge-success">{ r.Cuisine }</span>
+					}
+					if r.Course != "" {
+						<span class="badge badge-warning">{ r.Course }</span>
+					}
+				</div>
+				<div class="panel">
+					<h2 class="section-title">Ingredients</h2>
+					<ul>
+						for _, ing := range r.Ingredients {
+							<li>{ ingredientDisplay(ing) }</li>
+						}
+					</ul>
+				</div>
+				<div class="panel">
+					<h2 class="section-title">Instructions</h2>
+					<ol>
+						for _, inst := range r.Instructions {
+							<li class="mb-1">{ inst.Text }</li>
+						}
+					</ol>
+				</div>
+				if r.SourceURL != "" {
+					<p class="text-secondary mt-2">
+						<a href={ templ.SafeURL(r.SourceURL) } target="_blank" rel="noopener">View original recipe</a>
+					</p>
+				}
+				<p class="text-secondary mt-3">
+					Shared from <a href="/login">RecipeBox</a>
+				</p>
+			</div>
+			<div class="col-4">
+				if r.ImageURL != "" {
+					<div class="recipe-image">
+						<img src={ r.ImageURL } alt={ r.Title }/>
+					</div>
+				}
+			</div>
+		</div>
+	}
+}

@@ -54,6 +54,10 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						<span class="badge badge-warning">{ r.Course }</span>
 					}
 				</div>
+				<div class="mb-3">
+					<button class="btn btn-ghost btn-sm" id="share-btn" onclick="shareRecipe(event)">Share Recipe</button>
+					<span id="share-result" class="ml-1"></span>
+				</div>
 				<div class="panel">
 					<h2 class="section-title">Ingredients</h2>
 					<ul>
@@ -111,6 +115,36 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						toast.className = 'toast ' + (success ? 'toast-success' : 'toast-danger');
 						document.getElementById('notes-toast-msg').textContent = msg;
 						setTimeout(function() { toast.classList.add('is-hidden'); }, 3000);
+					}
+				</script>
+				<script>
+					function shareRecipe(e) {
+						e.preventDefault();
+						var btn = document.getElementById('share-btn');
+						var result = document.getElementById('share-result');
+						btn.classList.add('is-loading');
+						fetch(window.location.pathname + '/share', {
+							method: 'POST'
+						}).then(function(resp) {
+							return resp.json();
+						}).then(function(data) {
+							if (data.url) {
+								if (navigator.clipboard) {
+									navigator.clipboard.writeText(data.url).then(function() {
+										result.textContent = 'Link copied!';
+									});
+								} else {
+									result.textContent = data.url;
+								}
+							} else {
+								result.textContent = 'Failed to generate link';
+							}
+						}).catch(function() {
+							result.textContent = 'Failed to generate link';
+						}).finally(function() {
+							btn.classList.remove('is-loading');
+							setTimeout(function() { result.textContent = ''; }, 5000);
+						});
 					}
 				</script>
 				if r.SourceURL != "" {

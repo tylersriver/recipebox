@@ -41,6 +41,7 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	e.GET("/register", authHandler.RegisterPage)
 	e.POST("/register", authHandler.RegisterSubmit)
 	e.POST("/logout", authHandler.Logout)
+	e.GET("/share/:token", recipeHandler.SharedDetail)
 
 	// Protected routes
 	auth := e.Group("", middleware.RequireAuth(store))
@@ -52,6 +53,7 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	auth.POST("/import/submit", recipeHandler.ImportSubmit)
 	auth.POST("/recipes/:id/notes", recipeHandler.UpdateNotes)
 	auth.POST("/recipes/:id/delete", recipeHandler.Delete)
+	auth.POST("/recipes/:id/share", recipeHandler.GenerateShareLink)
 	auth.GET("/search/results", searchHandler.Results)
 
 	return &Server{echo: e, addr: addr}
