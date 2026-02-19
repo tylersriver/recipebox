@@ -13,8 +13,9 @@ RUN CGO_ENABLED=0 go build -o /recipebox .
 FROM alpine:3.21
 RUN apk add --no-cache ca-certificates
 COPY --from=build /recipebox /usr/local/bin/recipebox
+COPY --from=build /src/static /app/static
 
-WORKDIR /data
+WORKDIR /app
 EXPOSE 8080
 ENTRYPOINT ["recipebox"]
 CMD ["serve"]
