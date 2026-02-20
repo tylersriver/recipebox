@@ -54,8 +54,9 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						<span class="badge badge-warning">{ r.Course }</span>
 					}
 				</div>
-				<div class="mb-3">
+				<div class="mb-3 no-print">
 					<button class="btn btn-ghost btn-sm" id="share-btn" onclick="shareRecipe(event)">Share Recipe</button>
+					<button class="btn btn-ghost btn-sm" onclick="window.print()">Print Recipe</button>
 					<span id="share-result" class="ml-1"></span>
 				</div>
 				<div class="panel">
@@ -74,7 +75,7 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						}
 					</ol>
 				</div>
-				<div class="panel">
+				<div class="panel no-print">
 					<h2 class="section-title">My Notes</h2>
 					<form id="notes-form" onsubmit="saveNotes(event)">
 						<div class="form-group">
@@ -85,7 +86,13 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						</div>
 					</form>
 				</div>
-				<div id="notes-toast" class="toast is-hidden">
+				if r.Notes != "" {
+					<div class="panel print-only">
+						<h2 class="section-title">My Notes</h2>
+						<p>{ r.Notes }</p>
+					</div>
+				}
+				<div id="notes-toast" class="toast is-hidden no-print">
 					<span id="notes-toast-msg"></span>
 					<button class="toast-close" onclick="this.parentElement.classList.add('is-hidden')">&times;</button>
 				</div>
@@ -147,7 +154,7 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						});
 					}
 				</script>
-				<div style="display:flex;justify-content:space-between;align-items:center;" class="mt-2">
+				<div style="display:flex;justify-content:space-between;align-items:center;" class="mt-2 no-print">
 					<div>
 						if r.SourceURL != "" {
 							<p class="text-secondary">
@@ -157,7 +164,7 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 					</div>
 					<button class="btn btn-danger btn-sm" type="button" onclick="document.getElementById('delete-modal').classList.add('is-active')">Delete Recipe</button>
 				</div>
-				<div id="delete-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('is-active')">
+				<div id="delete-modal" class="modal-overlay no-print" onclick="if(event.target===this)this.classList.remove('is-active')">
 					<div class="modal">
 						<div class="modal-title">Delete Recipe</div>
 						<div class="modal-body">Are you sure you want to delete this recipe? This cannot be undone.</div>
