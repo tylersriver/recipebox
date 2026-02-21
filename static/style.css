@@ -812,6 +812,92 @@ img {
   border-top: 1px solid var(--border);
 }
 
+/* --- Print-only (hidden on screen) --- */
+.print-only {
+  display: none !important;
+}
+
+/* --- Print --- */
+@media print {
+  *, *::before, *::after {
+    color: #000 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    border-color: #ccc !important;
+  }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .navbar,
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .page-content {
+    padding: 0;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .grid {
+    display: block;
+  }
+
+  .col-4,
+  .col-8 {
+    grid-column: unset;
+  }
+
+  .recipe-image img {
+    max-width: 280px;
+    float: right;
+    margin: 0 0 1rem 1.5rem;
+    border: 1px solid #ccc;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .panel {
+    border: none;
+    padding: 0;
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .badge {
+    border: 1px solid #ccc;
+    padding: 0.15em 0.5em;
+  }
+
+  a {
+    text-decoration: none !important;
+  }
+
+  ol, ul {
+    page-break-inside: avoid;
+  }
+}
+
 /* --- Responsive --- */
 @media (max-width: 768px) {
   .navbar-burger {
