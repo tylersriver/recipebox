@@ -48,6 +48,51 @@ func (s *RecipeService) ImportRecipe(ctx context.Context, userID string, cmd com
 	return &result, nil
 }
 
+// CreateRecipe manually creates a recipe from user-provided data.
+func (s *RecipeService) CreateRecipe(ctx context.Context, userID string, cmd command.CreateRecipeCommand) (*dto.RecipeResult, error) {
+	recipe, err := entity.NewManualRecipe(cmd.Title)
+	if err != nil {
+		return nil, fmt.Errorf("creating recipe: %w", err)
+	}
+
+	recipe.UserID = userID
+	recipe.Description = cmd.Description
+	recipe.PrepTime = cmd.PrepTime
+	recipe.CookTime = cmd.CookTime
+	recipe.TotalTime = cmd.TotalTime
+	recipe.Servings = cmd.Servings
+	recipe.Cuisine = cmd.Cuisine
+	recipe.Course = cmd.Course
+	recipe.ImageURL = cmd.ImageURL
+
+	for _, ing := range cmd.Ingredients {
+		if ing.Raw != "" {
+			recipe.Ingredients = append(recipe.Ingredients, entity.Ingredient{Raw: ing.Raw})
+		}
+	}
+
+	for i, text := range cmd.Instructions {
+		if text != "" {
+			recipe.Instructions = append(recipe.Instructions, entity.Instruction{
+				StepNumber: i + 1,
+				Text:       text,
+			})
+		}
+	}
+
+	validated, err := entity.Validate(recipe)
+	if err != nil {
+		return nil, fmt.Errorf("validating recipe: %w", err)
+	}
+
+	if err := s.repo.Save(ctx, validated); err != nil {
+		return nil, fmt.Errorf("saving recipe: %w", err)
+	}
+
+	result := mapper.ToDTO(recipe)
+	return &result, nil
+}
+
 // DeleteRecipe removes a recipe by ID.
 func (s *RecipeService) DeleteRecipe(ctx context.Context, userID string, cmd command.DeleteRecipeCommand) error {
 	return s.repo.Delete(ctx, userID, cmd.ID)

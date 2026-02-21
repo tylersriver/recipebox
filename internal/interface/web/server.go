@@ -49,6 +49,8 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	auth := e.Group("", middleware.RequireAuth(store))
 	auth.GET("/home", homeHandler.Home)
 	auth.GET("/recipes", recipeHandler.List)
+	auth.GET("/recipes/create", recipeHandler.CreatePage)
+	auth.POST("/recipes/create", recipeHandler.CreateSubmit)
 	auth.GET("/recipes/search", recipeHandler.Search)
 	auth.GET("/recipes/:id", recipeHandler.Detail)
 	auth.GET("/import", recipeHandler.ImportPage)

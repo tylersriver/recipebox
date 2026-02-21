@@ -2,6 +2,7 @@ package template
 
 import (
 	"fmt"
+	"strings"
 	"github.com/tyler/recipebox/internal/application/dto"
 )
 
@@ -156,7 +157,7 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 				</script>
 				<div style="display:flex;justify-content:space-between;align-items:center;" class="mt-2 no-print">
 					<div>
-						if r.SourceURL != "" {
+						if r.SourceURL != "" && !strings.HasPrefix(r.SourceURL, "manual://") {
 							<p class="text-secondary">
 								<a href={ templ.SafeURL(r.SourceURL) } target="_blank" rel="noopener">View original recipe</a>
 							</p>
