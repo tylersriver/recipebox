@@ -54,3 +54,26 @@ func NewRecipe(title, sourceURL string) (*Recipe, error) {
 		UpdatedAt: now,
 	}, nil
 }
+
+// NewManualRecipe creates a new Recipe for manually-entered data.
+// It generates a unique source URL in the form "manual://<id>".
+func NewManualRecipe(title string) (*Recipe, error) {
+	if title == "" {
+		return nil, errors.New("recipe title is required")
+	}
+
+	id, err := uuid.NewV7()
+	if err != nil {
+		return nil, err
+	}
+
+	idStr := id.String()
+	now := time.Now().UTC()
+	return &Recipe{
+		ID:        idStr,
+		Title:     title,
+		SourceURL: "manual://" + idStr,
+		CreatedAt: now,
+		UpdatedAt: now,
+	}, nil
+}
