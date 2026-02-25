@@ -7,9 +7,9 @@ import (
 
 templ RecipeCard(r dto.RecipeResult) {
 	<div class="card">
-		if r.ImageURL != "" {
+		if r.DisplayImageURL() != "" {
 			<div class="card-image">
-				<img src={ r.ImageURL } alt={ r.Title }/>
+				<img src={ r.DisplayImageURL() } alt={ r.Title }/>
 			</div>
 		}
 		<div class="card-body">

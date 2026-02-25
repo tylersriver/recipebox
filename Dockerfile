@@ -16,6 +16,8 @@ COPY --from=build /recipebox /usr/local/bin/recipebox
 COPY --from=build /src/static /app/static
 
 WORKDIR /app
+RUN mkdir -p /data/uploads
+ENV RECIPEBOX_STORAGE_UPLOADS_DIR=/data/uploads
 EXPOSE 8080
 ENTRYPOINT ["recipebox"]
 CMD ["serve"]

@@ -64,6 +64,7 @@ func (s *RecipeService) CreateRecipe(ctx context.Context, userID string, cmd com
 	recipe.Cuisine = cmd.Cuisine
 	recipe.Course = cmd.Course
 	recipe.ImageURL = cmd.ImageURL
+	recipe.ImagePath = cmd.ImagePath
 
 	for _, ing := range cmd.Ingredients {
 		if ing.Raw != "" {
@@ -123,6 +124,11 @@ func (s *RecipeService) ListRecipes(ctx context.Context, userID string, q query.
 	}
 	result := mapper.ToDTOList(recipes, total, q.Offset, limit)
 	return &result, nil
+}
+
+// UploadImage updates the image path for a recipe.
+func (s *RecipeService) UploadImage(ctx context.Context, userID string, cmd command.UploadImageCommand) error {
+	return s.repo.UpdateImagePath(ctx, userID, cmd.RecipeID, cmd.Filename)
 }
 
 // UpdateNotes updates the personal notes for a recipe.

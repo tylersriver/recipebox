@@ -17,13 +17,14 @@ type Server struct {
 	addr string
 }
 
-func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSecret string) *Server {
+func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSecret string, uploadsDir string) *Server {
 	e := echo.New()
 	e.HideBanner = true
 
 	e.Use(echomw.Logger())
 	e.Use(echomw.Recover())
 	e.Static("/static", "static")
+	e.Static("/uploads", uploadsDir)
 
 	store := sessions.NewCookieStore([]byte(sessionSecret))
 
@@ -33,7 +34,7 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	landingHandler := handler.NewLandingHandler(store)
 	authHandler := handler.NewAuthHandler(authSvc, store)
 	homeHandler := handler.NewHomeHandler(svc)
-	recipeHandler := handler.NewRecipeHandler(svc)
+	recipeHandler := handler.NewRecipeHandler(svc, uploadsDir)
 	searchHandler := handler.NewSearchHandler(svc)
 
 	// Public routes
@@ -58,6 +59,7 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	auth.POST("/recipes/:id/notes", recipeHandler.UpdateNotes)
 	auth.POST("/recipes/:id/delete", recipeHandler.Delete)
 	auth.POST("/recipes/:id/share", recipeHandler.GenerateShareLink)
+	auth.POST("/recipes/:id/upload-image", recipeHandler.UploadImage)
 	auth.GET("/search/results", searchHandler.Results)
 
 	return &Server{echo: e, addr: addr}

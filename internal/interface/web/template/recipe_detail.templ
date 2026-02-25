@@ -179,11 +179,22 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 				</div>
 			</div>
 			<div class="col-4">
-				if r.ImageURL != "" {
+				if r.DisplayImageURL() != "" {
 					<div class="recipe-image">
-						<img src={ r.ImageURL } alt={ r.Title }/>
+						<img src={ r.DisplayImageURL() } alt={ r.Title } id="recipe-image"/>
 					</div>
 				}
+				<div class="panel no-print mt-2">
+					<h2 class="section-title">Recipe Photo</h2>
+					<form method="POST" action={ templ.SafeURL(fmt.Sprintf("/recipes/%s/upload-image", r.ID)) } enctype="multipart/form-data">
+						<div class="form-group">
+							<input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="form-input"/>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary btn-sm" type="submit">Upload Photo</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	}
