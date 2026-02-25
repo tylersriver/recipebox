@@ -58,6 +58,7 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 				<div class="mb-3 no-print">
 					<button class="btn btn-ghost btn-sm" id="share-btn" onclick="shareRecipe(event)">Share Recipe</button>
 					<button class="btn btn-ghost btn-sm" onclick="window.print()">Print Recipe</button>
+					<button class="btn btn-ghost btn-sm" id="edit-btn" onclick="toggleEditMode()">Edit</button>
 					<span id="share-result" class="ml-1"></span>
 				</div>
 				<div class="panel">
@@ -126,6 +127,15 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 					}
 				</script>
 				<script>
+					function toggleEditMode() {
+						var panel = document.getElementById('edit-panel');
+						var btn = document.getElementById('edit-btn');
+						var visible = panel.style.display !== 'none';
+						panel.style.display = visible ? 'none' : '';
+						btn.textContent = visible ? 'Edit' : 'Done Editing';
+					}
+				</script>
+				<script>
 					function shareRecipe(e) {
 						e.preventDefault();
 						var btn = document.getElementById('share-btn');
@@ -184,7 +194,7 @@ templ RecipeDetail(r dto.RecipeResult, userEmail string) {
 						<img src={ r.DisplayImageURL() } alt={ r.Title } id="recipe-image"/>
 					</div>
 				}
-				<div class="panel no-print mt-2">
+				<div id="edit-panel" class="panel no-print mt-2" style="display:none;">
 					<h2 class="section-title">Recipe Photo</h2>
 					<form method="POST" action={ templ.SafeURL(fmt.Sprintf("/recipes/%s/upload-image", r.ID)) } enctype="multipart/form-data">
 						<div class="form-group">
