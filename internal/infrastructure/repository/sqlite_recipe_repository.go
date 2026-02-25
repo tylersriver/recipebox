@@ -197,6 +197,65 @@ func (r *sqliteRecipeRepository) UpdateImagePath(ctx context.Context, userID, id
 	return nil
 }
 
+func (r *sqliteRecipeRepository) UpdateRecipe(ctx context.Context, userID string, recipe *entity.Recipe) error {
+	tx, err := r.db.BeginTx(ctx, nil)
+	if err != nil {
+		return fmt.Errorf("beginning transaction: %w", err)
+	}
+	defer tx.Rollback()
+
+	result, err := tx.ExecContext(ctx, `
+		UPDATE recipes SET title = ?, description = ?,
+			prep_time = ?, cook_time = ?, total_time = ?,
+			servings = ?, cuisine = ?, course = ?,
+			updated_at = datetime('now')
+		WHERE id = ? AND user_id = ?`,
+		recipe.Title, recipe.Description,
+		recipe.PrepTime, recipe.CookTime, recipe.TotalTime,
+		recipe.Servings, recipe.Cuisine, recipe.Course,
+		recipe.ID, userID,
+	)
+	if err != nil {
+		return fmt.Errorf("updating recipe: %w", err)
+	}
+	n, _ := result.RowsAffected()
+	if n == 0 {
+		return fmt.Errorf("recipe not found: %s", recipe.ID)
+	}
+
+	// Replace ingredients
+	if _, err := tx.ExecContext(ctx, "DELETE FROM ingredients WHERE recipe_id = ?", recipe.ID); err != nil {
+		return fmt.Errorf("deleting old ingredients: %w", err)
+	}
+	for i, ing := range recipe.Ingredients {
+		_, err := tx.ExecContext(ctx, `
+			INSERT INTO ingredients (recipe_id, amount, unit, name, notes, raw, sort_order)
+			VALUES (?, ?, ?, ?, ?, ?, ?)`,
+			recipe.ID, ing.Amount, ing.Unit, ing.Name, ing.Notes, ing.Raw, i,
+		)
+		if err != nil {
+			return fmt.Errorf("inserting ingredient: %w", err)
+		}
+	}
+
+	// Replace instructions
+	if _, err := tx.ExecContext(ctx, "DELETE FROM instructions WHERE recipe_id = ?", recipe.ID); err != nil {
+		return fmt.Errorf("deleting old instructions: %w", err)
+	}
+	for _, inst := range recipe.Instructions {
+		_, err := tx.ExecContext(ctx, `
+			INSERT INTO instructions (recipe_id, step_number, text)
+			VALUES (?, ?, ?)`,
+			recipe.ID, inst.StepNumber, inst.Text,
+		)
+		if err != nil {
+			return fmt.Errorf("inserting instruction: %w", err)
+		}
+	}
+
+	return tx.Commit()
+}
+
 func (r *sqliteRecipeRepository) Delete(ctx context.Context, userID, id string) error {
 	result, err := r.db.ExecContext(ctx, "DELETE FROM recipes WHERE id = ? AND user_id = ?", id, userID)
 	if err != nil {

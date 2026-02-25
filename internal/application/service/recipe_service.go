@@ -126,6 +126,50 @@ func (s *RecipeService) ListRecipes(ctx context.Context, userID string, q query.
 	return &result, nil
 }
 
+// UpdateRecipe updates an existing recipe's fields, ingredients, and instructions.
+func (s *RecipeService) UpdateRecipe(ctx context.Context, userID string, cmd command.UpdateRecipeCommand) (*dto.RecipeResult, error) {
+	recipe, err := s.repo.FindByID(ctx, userID, cmd.ID)
+	if err != nil {
+		return nil, err
+	}
+	if recipe == nil {
+		return nil, fmt.Errorf("recipe not found: %s", cmd.ID)
+	}
+
+	recipe.Title = cmd.Title
+	recipe.Description = cmd.Description
+	recipe.PrepTime = cmd.PrepTime
+	recipe.CookTime = cmd.CookTime
+	recipe.TotalTime = cmd.TotalTime
+	recipe.Servings = cmd.Servings
+	recipe.Cuisine = cmd.Cuisine
+	recipe.Course = cmd.Course
+
+	recipe.Ingredients = nil
+	for _, ing := range cmd.Ingredients {
+		if ing.Raw != "" {
+			recipe.Ingredients = append(recipe.Ingredients, entity.Ingredient{Raw: ing.Raw})
+		}
+	}
+
+	recipe.Instructions = nil
+	for i, text := range cmd.Instructions {
+		if text != "" {
+			recipe.Instructions = append(recipe.Instructions, entity.Instruction{
+				StepNumber: i + 1,
+				Text:       text,
+			})
+		}
+	}
+
+	if err := s.repo.UpdateRecipe(ctx, userID, recipe); err != nil {
+		return nil, fmt.Errorf("updating recipe: %w", err)
+	}
+
+	result := mapper.ToDTO(recipe)
+	return &result, nil
+}
+
 // UploadImage updates the image path for a recipe.
 func (s *RecipeService) UploadImage(ctx context.Context, userID string, cmd command.UploadImageCommand) error {
 	return s.repo.UpdateImagePath(ctx, userID, cmd.RecipeID, cmd.Filename)

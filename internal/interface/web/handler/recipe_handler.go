@@ -260,6 +260,71 @@ func (h *RecipeHandler) GenerateShareLink(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"url": shareURL, "token": result.ShareToken})
 }
 
+func (h *RecipeHandler) EditSubmit(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+	recipeID := c.Param("id")
+
+	if err := c.Request().ParseMultipartForm(maxImageSize); err != nil {
+		if err2 := c.Request().ParseForm(); err2 != nil {
+			return c.String(http.StatusBadRequest, "Invalid form data")
+		}
+	}
+
+	title := strings.TrimSpace(c.FormValue("title"))
+	if title == "" {
+		return c.Redirect(http.StatusSeeOther, "/recipes/"+recipeID)
+	}
+
+	var ingredients []command.IngredientInput
+	for _, raw := range c.Request().Form["ingredients"] {
+		raw = strings.TrimSpace(raw)
+		if raw != "" {
+			ingredients = append(ingredients, command.IngredientInput{Raw: raw})
+		}
+	}
+
+	var instructions []string
+	for _, text := range c.Request().Form["instructions"] {
+		text = strings.TrimSpace(text)
+		if text != "" {
+			instructions = append(instructions, text)
+		}
+	}
+
+	cmd := command.UpdateRecipeCommand{
+		ID:           recipeID,
+		Title:        title,
+		Description:  strings.TrimSpace(c.FormValue("description")),
+		PrepTime:     strings.TrimSpace(c.FormValue("prep_time")),
+		CookTime:     strings.TrimSpace(c.FormValue("cook_time")),
+		TotalTime:    strings.TrimSpace(c.FormValue("total_time")),
+		Servings:     strings.TrimSpace(c.FormValue("servings")),
+		Cuisine:      strings.TrimSpace(c.FormValue("cuisine")),
+		Course:       strings.TrimSpace(c.FormValue("course")),
+		Ingredients:  ingredients,
+		Instructions: instructions,
+	}
+
+	if _, err := h.svc.UpdateRecipe(c.Request().Context(), userID, cmd); err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to update recipe: "+err.Error())
+	}
+
+	// Handle optional image upload alongside the edit
+	file, header, err := c.Request().FormFile("image")
+	if err == nil {
+		defer file.Close()
+		filename, err := saveUploadedImage(file, header, recipeID, h.uploadsDir)
+		if err == nil {
+			h.svc.UploadImage(c.Request().Context(), userID, command.UploadImageCommand{
+				RecipeID: recipeID,
+				Filename: filename,
+			})
+		}
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/recipes/"+recipeID)
+}
+
 func (h *RecipeHandler) UploadImage(c echo.Context) error {
 	userID := middleware.GetUserID(c)
 	recipeID := c.Param("id")

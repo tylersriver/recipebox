@@ -65,14 +65,14 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"grid\"><div class=\"col-8\"><h1 class=\"page-title\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"grid\"><div class=\"col-8\"><!-- View Mode --><div id=\"view-mode\"><h1 class=\"page-title\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(r.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 31, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 33, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -90,7 +90,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(r.Author)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 33, Col: 49}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 35, Col: 50}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -109,7 +109,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(r.Description)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 36, Col: 36}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 38, Col: 37}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -132,7 +132,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Prep: %s", r.PrepTime))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 40, Col: 74}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 42, Col: 75}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -151,7 +151,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Cook: %s", r.CookTime))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 43, Col: 74}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 45, Col: 75}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -170,7 +170,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Total: %s", r.TotalTime))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 46, Col: 76}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 48, Col: 77}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -189,7 +189,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Serves %s", r.Servings))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 49, Col: 77}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 51, Col: 78}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -208,7 +208,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(r.Cuisine)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 52, Col: 51}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 54, Col: 52}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -227,7 +227,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(r.Course)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 55, Col: 50}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 57, Col: 51}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -250,7 +250,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var12 string
 				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(ingredientDisplay(ing))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 68, Col: 35}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 70, Col: 36}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
@@ -273,7 +273,7 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(inst.Text)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 76, Col: 35}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 78, Col: 36}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -284,128 +284,291 @@ func RecipeDetail(r dto.RecipeResult, userEmail string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</ol></div><div class=\"panel no-print\"><h2 class=\"section-title\">My Notes</h2><form id=\"notes-form\" onsubmit=\"saveNotes(event)\"><div class=\"form-group\"><textarea class=\"form-textarea\" id=\"notes-input\" name=\"notes\" placeholder=\"Add your personal notes, tweaks, or modifications...\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</ol></div></div><!-- Edit Mode --><div id=\"edit-mode\" style=\"display:none;\" class=\"no-print\"><form method=\"POST\" action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var14 string
-			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(r.Notes)
+			var templ_7745c5c3_Var14 templ.SafeURL
+			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/recipes/%s/edit", r.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 84, Col: 145}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 85, Col: 86}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "</textarea></div><div class=\"form-group\"><button class=\"btn btn-primary\" type=\"submit\" id=\"notes-save-btn\">Save Notes</button></div></form></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\" enctype=\"multipart/form-data\"><div class=\"panel\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-title\">Title *</label> <input class=\"form-input\" type=\"text\" id=\"edit-title\" name=\"title\" required value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if r.Notes != "" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<div class=\"panel print-only\"><h2 class=\"section-title\">My Notes</h2><p>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var15 string
-				templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(r.Notes)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 94, Col: 18}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "</p></div>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
+			var templ_7745c5c3_Var15 string
+			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(r.Title)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 89, Col: 99}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "<div id=\"notes-toast\" class=\"toast is-hidden no-print\"><span id=\"notes-toast-msg\"></span> <button class=\"toast-close\" onclick=\"this.parentElement.classList.add('is-hidden')\">&times;</button></div><script>\n\t\t\t\t\tfunction saveNotes(e) {\n\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\tvar btn = document.getElementById('notes-save-btn');\n\t\t\t\t\t\tbtn.classList.add('is-loading');\n\t\t\t\t\t\tvar formData = new FormData(document.getElementById('notes-form'));\n\t\t\t\t\t\tfetch(window.location.pathname + '/notes', {\n\t\t\t\t\t\t\tmethod: 'POST',\n\t\t\t\t\t\t\tbody: formData\n\t\t\t\t\t\t}).then(function(resp) {\n\t\t\t\t\t\t\treturn resp.json().then(function(data) {\n\t\t\t\t\t\t\t\treturn { ok: resp.ok, data: data };\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}).then(function(result) {\n\t\t\t\t\t\t\tshowNotesToast(result.ok ? result.data.message : result.data.error, result.ok);\n\t\t\t\t\t\t}).catch(function() {\n\t\t\t\t\t\t\tshowNotesToast('Failed to save notes', false);\n\t\t\t\t\t\t}).finally(function() {\n\t\t\t\t\t\t\tbtn.classList.remove('is-loading');\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tfunction showNotesToast(msg, success) {\n\t\t\t\t\t\tvar toast = document.getElementById('notes-toast');\n\t\t\t\t\t\ttoast.className = 'toast ' + (success ? 'toast-success' : 'toast-danger');\n\t\t\t\t\t\tdocument.getElementById('notes-toast-msg').textContent = msg;\n\t\t\t\t\t\tsetTimeout(function() { toast.classList.add('is-hidden'); }, 3000);\n\t\t\t\t\t}\n\t\t\t\t</script><script>\n\t\t\t\t\tfunction toggleEditMode() {\n\t\t\t\t\t\tvar panel = document.getElementById('edit-panel');\n\t\t\t\t\t\tvar btn = document.getElementById('edit-btn');\n\t\t\t\t\t\tvar visible = panel.style.display !== 'none';\n\t\t\t\t\t\tpanel.style.display = visible ? 'none' : '';\n\t\t\t\t\t\tbtn.textContent = visible ? 'Edit' : 'Done Editing';\n\t\t\t\t\t}\n\t\t\t\t</script><script>\n\t\t\t\t\tfunction shareRecipe(e) {\n\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\tvar btn = document.getElementById('share-btn');\n\t\t\t\t\t\tvar result = document.getElementById('share-result');\n\t\t\t\t\t\tbtn.classList.add('is-loading');\n\t\t\t\t\t\tfetch(window.location.pathname + '/share', {\n\t\t\t\t\t\t\tmethod: 'POST'\n\t\t\t\t\t\t}).then(function(resp) {\n\t\t\t\t\t\t\treturn resp.json();\n\t\t\t\t\t\t}).then(function(data) {\n\t\t\t\t\t\t\tif (data.url) {\n\t\t\t\t\t\t\t\tif (navigator.clipboard) {\n\t\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(data.url).then(function() {\n\t\t\t\t\t\t\t\t\t\tresult.textContent = 'Link copied!';\n\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t\tresult.textContent = data.url;\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tresult.textContent = 'Failed to generate link';\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}).catch(function() {\n\t\t\t\t\t\t\tresult.textContent = 'Failed to generate link';\n\t\t\t\t\t\t}).finally(function() {\n\t\t\t\t\t\t\tbtn.classList.remove('is-loading');\n\t\t\t\t\t\t\tsetTimeout(function() { result.textContent = ''; }, 5000);\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t</script><div style=\"display:flex;justify-content:space-between;align-items:center;\" class=\"mt-2 no-print\"><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if r.SourceURL != "" && !strings.HasPrefix(r.SourceURL, "manual://") {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "<p class=\"text-secondary\"><a href=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var16 templ.SafeURL
-				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(r.SourceURL))
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 172, Col: 44}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\" target=\"_blank\" rel=\"noopener\">View original recipe</a></p>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "</div><button class=\"btn btn-danger btn-sm\" type=\"button\" onclick=\"document.getElementById('delete-modal').classList.add('is-active')\">Delete Recipe</button></div><div id=\"delete-modal\" class=\"modal-overlay no-print\" onclick=\"if(event.target===this)this.classList.remove('is-active')\"><div class=\"modal\"><div class=\"modal-title\">Delete Recipe</div><div class=\"modal-body\">Are you sure you want to delete this recipe? This cannot be undone.</div><div class=\"modal-actions\"><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"document.getElementById('delete-modal').classList.remove('is-active')\">Cancel</button><form method=\"POST\" action=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\"></div><div class=\"form-group\"><label class=\"form-label\" for=\"edit-description\">Description</label> <textarea class=\"form-textarea\" id=\"edit-description\" name=\"description\" style=\"min-height:80px;\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var17 templ.SafeURL
-			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/recipes/%s/delete", r.ID)))
+			var templ_7745c5c3_Var16 string
+			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(r.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 184, Col: 90}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 93, Col: 121}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\"><button class=\"btn btn-danger btn-sm\" type=\"submit\">Delete</button></form></div></div></div></div><div class=\"col-4\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if r.DisplayImageURL() != "" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<div class=\"recipe-image\"><img src=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "</textarea></div></div><div class=\"panel\"><h2 class=\"section-title\">Ingredients</h2><div id=\"edit-ingredients-list\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			for _, ing := range r.Ingredients {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "<div class=\"form-group ingredient-row\" style=\"display:flex;gap:0.5rem;align-items:center;\"><input class=\"form-input\" type=\"text\" name=\"ingredients\" value=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var17 string
+				templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(ingredientDisplay(ing))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 101, Col: 97}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" style=\"flex:1;\"> <button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"this.parentElement.remove()\">✕</button></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</div><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"addEditIngredient()\">+ Add Ingredient</button></div><div class=\"panel\"><h2 class=\"section-title\">Instructions</h2><div id=\"edit-instructions-list\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			for _, inst := range r.Instructions {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "<div class=\"form-group instruction-row\"><label class=\"form-label\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var18 string
-				templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(r.DisplayImageURL())
+				templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Step %d", inst.StepNumber))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 194, Col: 36}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 113, Col: 77}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\" alt=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "</label><div style=\"display:flex;gap:0.5rem;align-items:start;\"><textarea class=\"form-textarea\" name=\"instructions\" style=\"min-height:60px;flex:1;\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var19 string
-				templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(r.Title)
+				templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(inst.Text)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 194, Col: 52}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 115, Col: 106}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "\" id=\"recipe-image\"></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "</textarea> <button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"removeInstruction(this)\">✕</button></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "<div id=\"edit-panel\" class=\"panel no-print mt-2\" style=\"display:none;\"><h2 class=\"section-title\">Recipe Photo</h2><form method=\"POST\" action=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "</div><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"addEditInstruction()\">+ Add Step</button></div><div class=\"panel\"><h2 class=\"section-title\">Details</h2><div class=\"grid\" style=\"gap:1rem;\"><div class=\"col-4\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-prep-time\">Prep Time</label> <input class=\"form-input\" type=\"text\" id=\"edit-prep-time\" name=\"prep_time\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var20 templ.SafeURL
-			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/recipes/%s/upload-image", r.ID)))
+			var templ_7745c5c3_Var20 string
+			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(r.PrepTime)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 199, Col: 94}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 129, Col: 103}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\" enctype=\"multipart/form-data\"><div class=\"form-group\"><input type=\"file\" name=\"image\" accept=\"image/jpeg,image/png,image/webp\" class=\"form-input\"></div><div class=\"form-group\"><button class=\"btn btn-primary btn-sm\" type=\"submit\">Upload Photo</button></div></form></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "\" placeholder=\"e.g. 15 min\"></div></div><div class=\"col-4\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-cook-time\">Cook Time</label> <input class=\"form-input\" type=\"text\" id=\"edit-cook-time\" name=\"cook_time\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var21 string
+			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(r.CookTime)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 135, Col: 103}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "\" placeholder=\"e.g. 30 min\"></div></div><div class=\"col-4\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-total-time\">Total Time</label> <input class=\"form-input\" type=\"text\" id=\"edit-total-time\" name=\"total_time\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var22 string
+			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(r.TotalTime)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 141, Col: 106}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\" placeholder=\"e.g. 45 min\"></div></div></div><div class=\"grid\" style=\"gap:1rem;\"><div class=\"col-4\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-servings\">Servings</label> <input class=\"form-input\" type=\"text\" id=\"edit-servings\" name=\"servings\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var23 string
+			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(r.Servings)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 149, Col: 101}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "\" placeholder=\"e.g. 4\"></div></div><div class=\"col-4\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-cuisine\">Cuisine</label> <input class=\"form-input\" type=\"text\" id=\"edit-cuisine\" name=\"cuisine\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var24 string
+			templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(r.Cuisine)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 155, Col: 98}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "\" placeholder=\"e.g. Italian\"></div></div><div class=\"col-4\"><div class=\"form-group\"><label class=\"form-label\" for=\"edit-course\">Course</label> <input class=\"form-input\" type=\"text\" id=\"edit-course\" name=\"course\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var25 string
+			templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(r.Course)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 161, Col: 95}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "\" placeholder=\"e.g. Dessert\"></div></div></div></div><div class=\"panel\"><h2 class=\"section-title\">Recipe Photo</h2><div class=\"form-group\"><input type=\"file\" name=\"image\" accept=\"image/jpeg,image/png,image/webp\" class=\"form-input\"> <small class=\"text-secondary\">JPEG, PNG, or WebP. Max 10 MB. Leave empty to keep current photo.</small></div></div><div class=\"form-group\"><button class=\"btn btn-primary\" type=\"submit\">Save Changes</button> <button class=\"btn btn-ghost\" type=\"button\" onclick=\"toggleEditMode()\" style=\"margin-left:0.5rem;\">Cancel</button></div></form></div><!-- Notes (always visible) --><div class=\"panel no-print\"><h2 class=\"section-title\">My Notes</h2><form id=\"notes-form\" onsubmit=\"saveNotes(event)\"><div class=\"form-group\"><textarea class=\"form-textarea\" id=\"notes-input\" name=\"notes\" placeholder=\"Add your personal notes, tweaks, or modifications...\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var26 string
+			templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(r.Notes)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 184, Col: 145}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "</textarea></div><div class=\"form-group\"><button class=\"btn btn-primary\" type=\"submit\" id=\"notes-save-btn\">Save Notes</button></div></form></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if r.Notes != "" {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "<div class=\"panel print-only\"><h2 class=\"section-title\">My Notes</h2><p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var27 string
+				templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(r.Notes)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 194, Col: 18}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, "</p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 46, "<div id=\"notes-toast\" class=\"toast is-hidden no-print\"><span id=\"notes-toast-msg\"></span> <button class=\"toast-close\" onclick=\"this.parentElement.classList.add('is-hidden')\">&times;</button></div><script>\n\t\t\t\t\tfunction saveNotes(e) {\n\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\tvar btn = document.getElementById('notes-save-btn');\n\t\t\t\t\t\tbtn.classList.add('is-loading');\n\t\t\t\t\t\tvar formData = new FormData(document.getElementById('notes-form'));\n\t\t\t\t\t\tfetch(window.location.pathname + '/notes', {\n\t\t\t\t\t\t\tmethod: 'POST',\n\t\t\t\t\t\t\tbody: formData\n\t\t\t\t\t\t}).then(function(resp) {\n\t\t\t\t\t\t\treturn resp.json().then(function(data) {\n\t\t\t\t\t\t\t\treturn { ok: resp.ok, data: data };\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}).then(function(result) {\n\t\t\t\t\t\t\tshowNotesToast(result.ok ? result.data.message : result.data.error, result.ok);\n\t\t\t\t\t\t}).catch(function() {\n\t\t\t\t\t\t\tshowNotesToast('Failed to save notes', false);\n\t\t\t\t\t\t}).finally(function() {\n\t\t\t\t\t\t\tbtn.classList.remove('is-loading');\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tfunction showNotesToast(msg, success) {\n\t\t\t\t\t\tvar toast = document.getElementById('notes-toast');\n\t\t\t\t\t\ttoast.className = 'toast ' + (success ? 'toast-success' : 'toast-danger');\n\t\t\t\t\t\tdocument.getElementById('notes-toast-msg').textContent = msg;\n\t\t\t\t\t\tsetTimeout(function() { toast.classList.add('is-hidden'); }, 3000);\n\t\t\t\t\t}\n\t\t\t\t</script><script>\n\t\t\t\t\tfunction toggleEditMode() {\n\t\t\t\t\t\tvar viewMode = document.getElementById('view-mode');\n\t\t\t\t\t\tvar editMode = document.getElementById('edit-mode');\n\t\t\t\t\t\tvar isEditing = editMode.style.display !== 'none';\n\t\t\t\t\t\tviewMode.style.display = isEditing ? '' : 'none';\n\t\t\t\t\t\teditMode.style.display = isEditing ? 'none' : '';\n\t\t\t\t\t}\n\t\t\t\t\tfunction addEditIngredient() {\n\t\t\t\t\t\tvar list = document.getElementById('edit-ingredients-list');\n\t\t\t\t\t\tvar div = document.createElement('div');\n\t\t\t\t\t\tdiv.className = 'form-group ingredient-row';\n\t\t\t\t\t\tdiv.style.cssText = 'display:flex;gap:0.5rem;align-items:center;';\n\t\t\t\t\t\tdiv.innerHTML = '<input class=\"form-input\" type=\"text\" name=\"ingredients\" placeholder=\"e.g. 1 cup sugar\" style=\"flex:1;\"/><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"this.parentElement.remove()\">✕</button>';\n\t\t\t\t\t\tlist.appendChild(div);\n\t\t\t\t\t\tdiv.querySelector('input').focus();\n\t\t\t\t\t}\n\t\t\t\t\tfunction addEditInstruction() {\n\t\t\t\t\t\tvar list = document.getElementById('edit-instructions-list');\n\t\t\t\t\t\tvar count = list.querySelectorAll('.instruction-row').length + 1;\n\t\t\t\t\t\tvar div = document.createElement('div');\n\t\t\t\t\t\tdiv.className = 'form-group instruction-row';\n\t\t\t\t\t\tdiv.innerHTML = '<label class=\"form-label\">Step ' + count + '</label><div style=\"display:flex;gap:0.5rem;align-items:start;\"><textarea class=\"form-textarea\" name=\"instructions\" placeholder=\"Describe this step...\" style=\"min-height:60px;flex:1;\"></textarea><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"removeInstruction(this)\">✕</button></div>';\n\t\t\t\t\t\tlist.appendChild(div);\n\t\t\t\t\t\tdiv.querySelector('textarea').focus();\n\t\t\t\t\t}\n\t\t\t\t\tfunction removeInstruction(btn) {\n\t\t\t\t\t\tbtn.closest('.instruction-row').remove();\n\t\t\t\t\t\trenumberSteps();\n\t\t\t\t\t}\n\t\t\t\t\tfunction renumberSteps() {\n\t\t\t\t\t\tvar rows = document.querySelectorAll('#edit-instructions-list .instruction-row');\n\t\t\t\t\t\tfor (var i = 0; i < rows.length; i++) {\n\t\t\t\t\t\t\trows[i].querySelector('.form-label').textContent = 'Step ' + (i + 1);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t</script><script>\n\t\t\t\t\tfunction shareRecipe(e) {\n\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\tvar btn = document.getElementById('share-btn');\n\t\t\t\t\t\tvar result = document.getElementById('share-result');\n\t\t\t\t\t\tbtn.classList.add('is-loading');\n\t\t\t\t\t\tfetch(window.location.pathname + '/share', {\n\t\t\t\t\t\t\tmethod: 'POST'\n\t\t\t\t\t\t}).then(function(resp) {\n\t\t\t\t\t\t\treturn resp.json();\n\t\t\t\t\t\t}).then(function(data) {\n\t\t\t\t\t\t\tif (data.url) {\n\t\t\t\t\t\t\t\tif (navigator.clipboard) {\n\t\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(data.url).then(function() {\n\t\t\t\t\t\t\t\t\t\tresult.textContent = 'Link copied!';\n\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t\tresult.textContent = data.url;\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tresult.textContent = 'Failed to generate link';\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}).catch(function() {\n\t\t\t\t\t\t\tresult.textContent = 'Failed to generate link';\n\t\t\t\t\t\t}).finally(function() {\n\t\t\t\t\t\t\tbtn.classList.remove('is-loading');\n\t\t\t\t\t\t\tsetTimeout(function() { result.textContent = ''; }, 5000);\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t</script><div style=\"display:flex;justify-content:space-between;align-items:center;\" class=\"mt-2 no-print\"><div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if r.SourceURL != "" && !strings.HasPrefix(r.SourceURL, "manual://") {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 47, "<p class=\"text-secondary\"><a href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var28 templ.SafeURL
+				templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(r.SourceURL))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 300, Col: 44}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 48, "\" target=\"_blank\" rel=\"noopener\">View original recipe</a></p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 49, "</div><button class=\"btn btn-danger btn-sm\" type=\"button\" onclick=\"document.getElementById('delete-modal').classList.add('is-active')\">Delete Recipe</button></div><div id=\"delete-modal\" class=\"modal-overlay no-print\" onclick=\"if(event.target===this)this.classList.remove('is-active')\"><div class=\"modal\"><div class=\"modal-title\">Delete Recipe</div><div class=\"modal-body\">Are you sure you want to delete this recipe? This cannot be undone.</div><div class=\"modal-actions\"><button class=\"btn btn-ghost btn-sm\" type=\"button\" onclick=\"document.getElementById('delete-modal').classList.remove('is-active')\">Cancel</button><form method=\"POST\" action=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var29 templ.SafeURL
+			templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/recipes/%s/delete", r.ID)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 312, Col: 90}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 50, "\"><button class=\"btn btn-danger btn-sm\" type=\"submit\">Delete</button></form></div></div></div></div><div class=\"col-4\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if r.DisplayImageURL() != "" {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 51, "<div class=\"recipe-image\"><img src=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var30 string
+				templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(r.DisplayImageURL())
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 322, Col: 36}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 52, "\" alt=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var31 string
+				templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(r.Title)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/interface/web/template/recipe_detail.templ`, Line: 322, Col: 52}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 53, "\" id=\"recipe-image\"></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 54, "</div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
