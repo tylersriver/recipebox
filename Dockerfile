@@ -1,6 +1,8 @@
 FROM golang:1.25-alpine AS build
 
-RUN go install github.com/a-h/templ/cmd/templ@latest
+# Keep the templ CLI version in lockstep with the runtime pinned in go.mod
+# so generated code stays compatible.
+RUN go install github.com/a-h/templ/cmd/templ@v0.3.977
 
 WORKDIR /src
 COPY go.mod go.sum ./
