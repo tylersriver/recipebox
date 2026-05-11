@@ -5,10 +5,18 @@ templ LandingLayout() {
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 			<title>RecipeBox — Save, Organize &amp; Share Your Favorite Recipes</title>
 			<meta name="description" content="Import recipes from any website with one click. Organize your personal cookbook, add notes, and share favorites with friends."/>
 			<meta name="robots" content="index, follow"/>
+			<meta name="theme-color" content="#080F11"/>
+			<link rel="manifest" href="/static/manifest.webmanifest"/>
+			<link rel="icon" type="image/svg+xml" href="/static/icon.svg"/>
+			<link rel="apple-touch-icon" href="/static/icon.svg"/>
+			<meta name="apple-mobile-web-app-capable" content="yes"/>
+			<meta name="mobile-web-app-capable" content="yes"/>
+			<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+			<meta name="apple-mobile-web-app-title" content="RecipeBox"/>
 			<link rel="canonical" href="https://recipebox.app/"/>
 			<!-- Open Graph -->
 			<meta property="og:type" content="website"/>
@@ -39,6 +47,13 @@ templ LandingLayout() {
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 			<link rel="stylesheet" href="/static/style.css"/>
+			<script>
+				if ('serviceWorker' in navigator) {
+					window.addEventListener('load', function () {
+						navigator.serviceWorker.register('/sw.js').catch(function () {});
+					});
+				}
+			</script>
 		</head>
 		<body>
 			<nav class="navbar">

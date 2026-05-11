@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Offline - RecipeBox</title>
+<meta name="theme-color" content="#080F11"/>
+<link rel="icon" type="image/svg+xml" href="/static/icon.svg"/>
+<link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+<div class="page-content">
+  <div class="container" style="text-align:center;padding-top:4rem;">
+    <h1 style="margin-bottom:1rem;">You're offline</h1>
+    <p style="color:var(--text-secondary);margin-bottom:2rem;">
+      RecipeBox can't reach the server right now. Recipes you've already opened may still be available — try again when you're back online.
+    </p>
+    <a class="btn" href="/home" onclick="event.preventDefault(); location.reload();">Retry</a>
+  </div>
+</div>
+</body>
+</html>

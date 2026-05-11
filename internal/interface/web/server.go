@@ -25,6 +25,10 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	e.Use(echomw.Recover())
 	e.Static("/static", "static")
 
+	// PWA: service worker must be served from the root so it can control
+	// the entire site scope. The manifest can stay under /static/.
+	e.File("/sw.js", "static/sw.js")
+
 	store := sessions.NewCookieStore([]byte(sessionSecret))
 
 	userRepo := infrarepo.NewSQLiteUserRepository(db)

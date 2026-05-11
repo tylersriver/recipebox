@@ -1,0 +1,46 @@
+{
+  "name": "RecipeBox",
+  "short_name": "RecipeBox",
+  "description": "Save, search, and cook your recipes — anywhere.",
+  "start_url": "/home",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080F11",
+  "theme_color": "#080F11",
+  "categories": ["food", "lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Browse recipes",
+      "short_name": "Browse",
+      "url": "/recipes",
+      "description": "View all your saved recipes"
+    },
+    {
+      "name": "Add recipe",
+      "short_name": "Add",
+      "url": "/recipes/create",
+      "description": "Create a new recipe"
+    },
+    {
+      "name": "Import recipe",
+      "short_name": "Import",
+      "url": "/import",
+      "description": "Import a recipe from a URL"
+    }
+  ]
+}
