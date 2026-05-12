@@ -15,6 +15,8 @@ type RecipeRepository interface {
 	Search(ctx context.Context, userID, query string, offset, limit int) ([]*entity.Recipe, int, error)
 	Delete(ctx context.Context, userID, id string) error
 	UpdateNotes(ctx context.Context, userID, id string, notes string) error
+	UpdateImagePath(ctx context.Context, userID, id string, imagePath string) error
+	UpdateRecipe(ctx context.Context, userID string, recipe *entity.Recipe) error
 	FindByShareToken(ctx context.Context, token string) (*entity.Recipe, error)
 	SetShareToken(ctx context.Context, userID, id, token string) error
 }

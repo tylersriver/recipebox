@@ -18,6 +18,7 @@ func ToDTO(r *entity.Recipe) dto.RecipeResult {
 		Cuisine:     r.Cuisine,
 		Course:      r.Course,
 		ImageURL:    r.ImageURL,
+		ImagePath:   r.ImagePath,
 		SourceURL:   r.SourceURL,
 		Author:      r.Author,
 		Nutrition:   r.Nutrition,

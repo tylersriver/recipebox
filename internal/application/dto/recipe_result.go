@@ -16,6 +16,7 @@ type RecipeResult struct {
 	Cuisine      string
 	Course       string
 	ImageURL     string
+	ImagePath    string
 	SourceURL    string
 	Author       string
 	Nutrition    string
@@ -24,6 +25,15 @@ type RecipeResult struct {
 	UserID       string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
+}
+
+// DisplayImageURL returns the best available image URL.
+// Uploaded images (ImagePath) take priority over external URLs (ImageURL).
+func (r RecipeResult) DisplayImageURL() string {
+	if r.ImagePath != "" {
+		return "/uploads/" + r.ImagePath
+	}
+	return r.ImageURL
 }
 
 // IngredientResult is the DTO for ingredients.

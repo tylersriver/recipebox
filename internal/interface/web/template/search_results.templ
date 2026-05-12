@@ -13,8 +13,8 @@ templ SearchResults(recipes []dto.RecipeResult) {
 			<p class="text-secondary mt-2 mb-2">{ fmt.Sprintf("Found %d recipe(s)", len(recipes)) }</p>
 			for _, r := range recipes {
 				<div class="search-result">
-					if r.ImageURL != "" {
-						<img src={ r.ImageURL } alt={ r.Title }/>
+					if r.DisplayImageURL() != "" {
+						<img src={ r.DisplayImageURL() } alt={ r.Title }/>
 					}
 					<div class="search-result-info">
 						<a href={ templ.SafeURL(fmt.Sprintf("/recipes/%s", r.ID)) }>{ r.Title }</a>

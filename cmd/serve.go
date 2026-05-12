@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -30,8 +31,12 @@ var serveCmd = &cobra.Command{
 		port := viper.GetInt("server.port")
 		addr := fmt.Sprintf("%s:%d", host, port)
 		sessionSecret := viper.GetString("session.secret")
+		uploadsDir := viper.GetString("storage.uploads_dir")
+		if err := os.MkdirAll(uploadsDir, 0755); err != nil {
+			return fmt.Errorf("creating uploads directory: %w", err)
+		}
 
-		srv := web.NewServer(svc, db, addr, sessionSecret)
+		srv := web.NewServer(svc, db, addr, sessionSecret, uploadsDir)
 		fmt.Printf("RecipeBox server starting on http://%s\n", addr)
 		return srv.Start()
 	},

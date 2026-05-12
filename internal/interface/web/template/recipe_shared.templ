@@ -62,9 +62,9 @@ templ SharedRecipeDetail(r dto.RecipeResult) {
 				</p>
 			</div>
 			<div class="col-4">
-				if r.ImageURL != "" {
+				if r.DisplayImageURL() != "" {
 					<div class="recipe-image">
-						<img src={ r.ImageURL } alt={ r.Title }/>
+						<img src={ r.DisplayImageURL() } alt={ r.Title }/>
 					</div>
 				}
 			</div>

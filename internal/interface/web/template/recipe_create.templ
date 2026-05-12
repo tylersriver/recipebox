@@ -4,7 +4,7 @@ templ RecipeCreate(userEmail string) {
 	@Layout("Add Recipe", userEmail) {
 		<h1 class="page-title">Add Recipe</h1>
 		<p class="page-subtitle">Manually add a recipe to your collection.</p>
-		<form method="POST" action="/recipes/create">
+		<form method="POST" action="/recipes/create" enctype="multipart/form-data">
 			<div class="grid">
 				<div class="col-8">
 					<div class="panel">
@@ -89,7 +89,12 @@ templ RecipeCreate(userEmail string) {
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="form-label" for="image_url">Image URL</label>
+							<label class="form-label" for="image">Upload Photo</label>
+							<input class="form-input" type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp"/>
+							<small class="text-secondary">JPEG, PNG, or WebP. Max 10 MB.</small>
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="image_url">Or Image URL</label>
 							<input class="form-input" type="url" id="image_url" name="image_url" placeholder="https://example.com/photo.jpg"/>
 						</div>
 					</div>

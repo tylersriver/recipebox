@@ -119,6 +119,10 @@ func migrationAlreadyApplied(db *sql.DB, name string) bool {
 		var count int
 		db.QueryRow("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='users'").Scan(&count)
 		return count > 0
+	case "005_add_image_path.sql":
+		var count int
+		db.QueryRow("SELECT COUNT(*) FROM pragma_table_info('recipes') WHERE name='image_path'").Scan(&count)
+		return count > 0
 	default:
 		return false
 	}

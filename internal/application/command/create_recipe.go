@@ -11,6 +11,7 @@ type CreateRecipeCommand struct {
 	Cuisine      string
 	Course       string
 	ImageURL     string
+	ImagePath    string
 	Ingredients  []IngredientInput
 	Instructions []string
 }

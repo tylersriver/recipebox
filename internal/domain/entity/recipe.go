@@ -21,6 +21,7 @@ type Recipe struct {
 	Cuisine      string
 	Course       string
 	ImageURL     string
+	ImagePath    string
 	SourceURL    string
 	Author       string
 	Nutrition    string
