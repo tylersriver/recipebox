@@ -110,6 +110,76 @@ func (h *RecipeHandler) CreateSubmit(c echo.Context) error {
 	return c.Redirect(http.StatusSeeOther, "/recipes/"+result.ID)
 }
 
+func (h *RecipeHandler) EditPage(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+	id := c.Param("id")
+	result, err := h.svc.GetRecipe(c.Request().Context(), userID, query.GetRecipeByIDQuery{ID: id})
+	if err != nil {
+		return c.String(http.StatusNotFound, "Recipe not found")
+	}
+
+	return Render(c, http.StatusOK, tmpl.RecipeEdit(*result, middleware.GetUserEmail(c)))
+}
+
+func (h *RecipeHandler) EditSubmit(c echo.Context) error {
+	userID := middleware.GetUserID(c)
+	id := c.Param("id")
+
+	if err := c.Request().ParseForm(); err != nil {
+		return c.String(http.StatusBadRequest, "Invalid form data")
+	}
+
+	title := strings.TrimSpace(c.FormValue("title"))
+	if title == "" {
+		result, err := h.svc.GetRecipe(c.Request().Context(), userID, query.GetRecipeByIDQuery{ID: id})
+		if err != nil {
+			return c.String(http.StatusNotFound, "Recipe not found")
+		}
+		return Render(c, http.StatusUnprocessableEntity, tmpl.RecipeEdit(*result, middleware.GetUserEmail(c)))
+	}
+
+	var ingredients []command.IngredientInput
+	for _, raw := range c.Request().Form["ingredients"] {
+		raw = strings.TrimSpace(raw)
+		if raw != "" {
+			ingredients = append(ingredients, command.IngredientInput{Raw: raw})
+		}
+	}
+
+	var instructions []string
+	for _, text := range c.Request().Form["instructions"] {
+		text = strings.TrimSpace(text)
+		if text != "" {
+			instructions = append(instructions, text)
+		}
+	}
+
+	cmd := command.UpdateRecipeCommand{
+		ID:           id,
+		Title:        title,
+		Description:  strings.TrimSpace(c.FormValue("description")),
+		PrepTime:     strings.TrimSpace(c.FormValue("prep_time")),
+		CookTime:     strings.TrimSpace(c.FormValue("cook_time")),
+		TotalTime:    strings.TrimSpace(c.FormValue("total_time")),
+		Servings:     strings.TrimSpace(c.FormValue("servings")),
+		Cuisine:      strings.TrimSpace(c.FormValue("cuisine")),
+		Course:       strings.TrimSpace(c.FormValue("course")),
+		ImageURL:     strings.TrimSpace(c.FormValue("image_url")),
+		Ingredients:  ingredients,
+		Instructions: instructions,
+	}
+
+	result, err := h.svc.UpdateRecipe(c.Request().Context(), userID, cmd)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return c.String(http.StatusNotFound, "Recipe not found")
+		}
+		return c.String(http.StatusInternalServerError, "Failed to update recipe: "+err.Error())
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/recipes/"+result.ID)
+}
+
 func (h *RecipeHandler) ImportPage(c echo.Context) error {
 	return Render(c, http.StatusOK, tmpl.RecipeImport(middleware.GetUserEmail(c)))
 }
