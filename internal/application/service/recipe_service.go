@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"time"
 
 	"github.com/tyler/recipebox/internal/application/command"
 	"github.com/tyler/recipebox/internal/application/dto"
@@ -71,6 +72,63 @@ func (s *RecipeService) CreateRecipe(ctx context.Context, userID string, cmd com
 		}
 	}
 
+	for i, text := range cmd.Instructions {
+		if text != "" {
+			recipe.Instructions = append(recipe.Instructions, entity.Instruction{
+				StepNumber: i + 1,
+				Text:       text,
+			})
+		}
+	}
+
+	validated, err := entity.Validate(recipe)
+	if err != nil {
+		return nil, fmt.Errorf("validating recipe: %w", err)
+	}
+
+	if err := s.repo.Save(ctx, validated); err != nil {
+		return nil, fmt.Errorf("saving recipe: %w", err)
+	}
+
+	result := mapper.ToDTO(recipe)
+	return &result, nil
+}
+
+// UpdateRecipe edits an existing recipe with user-provided data. It preserves
+// the recipe's identity, source URL, notes, and share token while replacing
+// the editable fields, ingredients, and instructions.
+func (s *RecipeService) UpdateRecipe(ctx context.Context, userID string, cmd command.UpdateRecipeCommand) (*dto.RecipeResult, error) {
+	recipe, err := s.repo.FindByID(ctx, userID, cmd.ID)
+	if err != nil {
+		return nil, err
+	}
+	if recipe == nil {
+		return nil, fmt.Errorf("recipe not found: %s", cmd.ID)
+	}
+
+	if cmd.Title == "" {
+		return nil, fmt.Errorf("recipe title is required")
+	}
+
+	recipe.Title = cmd.Title
+	recipe.Description = cmd.Description
+	recipe.PrepTime = cmd.PrepTime
+	recipe.CookTime = cmd.CookTime
+	recipe.TotalTime = cmd.TotalTime
+	recipe.Servings = cmd.Servings
+	recipe.Cuisine = cmd.Cuisine
+	recipe.Course = cmd.Course
+	recipe.ImageURL = cmd.ImageURL
+	recipe.UpdatedAt = time.Now().UTC()
+
+	recipe.Ingredients = nil
+	for _, ing := range cmd.Ingredients {
+		if ing.Raw != "" {
+			recipe.Ingredients = append(recipe.Ingredients, entity.Ingredient{Raw: ing.Raw})
+		}
+	}
+
+	recipe.Instructions = nil
 	for i, text := range cmd.Instructions {
 		if text != "" {
 			recipe.Instructions = append(recipe.Instructions, entity.Instruction{

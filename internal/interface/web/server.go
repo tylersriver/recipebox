@@ -57,6 +57,8 @@ func NewServer(svc *appservice.RecipeService, db *sql.DB, addr string, sessionSe
 	auth.POST("/recipes/create", recipeHandler.CreateSubmit)
 	auth.GET("/recipes/search", recipeHandler.Search)
 	auth.GET("/recipes/:id", recipeHandler.Detail)
+	auth.GET("/recipes/:id/edit", recipeHandler.EditPage)
+	auth.POST("/recipes/:id/edit", recipeHandler.EditSubmit)
 	auth.GET("/import", recipeHandler.ImportPage)
 	auth.POST("/import/submit", recipeHandler.ImportSubmit)
 	auth.POST("/recipes/:id/notes", recipeHandler.UpdateNotes)
